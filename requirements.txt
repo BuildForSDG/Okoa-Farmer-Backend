@@ -11,3 +11,4 @@ flask_jwt
 google-api-python-client
 google-auth
 authlib==0.14.2
+requests_oauthlib

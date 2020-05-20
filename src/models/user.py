@@ -1,14 +1,28 @@
 from src.models.Model import db
 
+
+
 class UserModel(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80))
+    firstname = db.Column(db.String(80))
+    lastname = db.Column(db.String(80))
+    residence = db.Column(db.String(80))
+    address = db.Column(db.String(80))
+    phonenumber = db.Column(db.String(80))
+    emailaddress = db.Column(db.String(80))
     password = db.Column(db.String(200))
 
-    def __init__(self, username, password):
+    def __init__(self, username, firstname, lastname, residence, address, phonenumber, emailaddress, password):
         self.username = username
+        self.firstname = firstname
+        self.lastname = lastname
+        self.residence = residence
+        self.address = address
+        self.phonenumber = phonenumber
+        self.emailaddress = emailaddress
         self.password = password
 
     def save_to_db(self):

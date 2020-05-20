@@ -3,7 +3,8 @@ import os
 
 import flask
 
-from authlib.client import OAuth2Session
+# from authlib.client import OAuth2Session
+from authlib.integrations.requests_client import OAuth2Session
 import google.oauth2.credentials
 import googleapiclient.discovery
 from flask.json import jsonify
@@ -64,7 +65,6 @@ def no_cache(view):
     return functools.update_wrapper(no_cache_impl, view)
 
 
-@app.route('/google/login')
 @no_cache
 def login():
     session = OAuth2Session(CLIENT_ID, CLIENT_SECRET,
@@ -77,7 +77,6 @@ def login():
     return flask.redirect(uri, code=302)
 
 
-@app.route('/google/auth')
 @no_cache
 def google_auth_redirect():
     req_state = flask.request.args.get('state', default=None, type=None)
@@ -99,10 +98,8 @@ def google_auth_redirect():
     return flask.redirect(BASE_URI, code=302)
 
 
-@app.route('/google/logout')
 @no_cache
 def logout():
-    print('sfdsssssssssssss')
     flask.session.pop(AUTH_TOKEN_KEY, None)
     flask.session.pop(AUTH_STATE_KEY, None)
 

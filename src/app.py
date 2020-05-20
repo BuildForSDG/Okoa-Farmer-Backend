@@ -6,12 +6,14 @@ import json
 from security import authenticate, identity
 from src.resources.user import UserRegister
 from src.google_auth import logout
+from src.facebook_oauth import facebook_login, facebook_callback
+from src.google_auth import google_auth_redirect
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Masaki2017$$@localhost/okoafarmer'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.secret_key = '#^#%^%&#BgdvttkkgyDDT&*%$'
+app.secret_key = '#^#%^%&#BgdvttkkgyDDT&*%$' #to encode cookies
 api = Api(app)
 # api_bp = Blueprint('api', __name__)
 # api = Api(api_bp)
@@ -29,9 +31,12 @@ def auth_error_handler(err):
 api.add_resource(UserRegister, '/register')
 
 
-@app.route('/')
-def home():
-    return 'I am coming home'
+@app.route("/")
+def index():
+    return """
+    <a href="/fb-login">Login with Facebook</a>
+    <a href="/google/login">Login with Google</a>
+    """
 
 
 # app.register_blueprint(google_auth.app)
@@ -44,11 +49,27 @@ def google_login():
     return jsonify({'message': 'You are not currently logged in.'})
 
 
+@app.route('/google/auth')
+def goog_redirect():
+    google_auth_redirect()
+
+
 @app.route('/google/logout')
 def signOutUser():
     if google_auth.is_logged_in():
         logout()
     return jsonify({'message': 'You are not currently logged in.'})
+
+
+# facebook routes
+@app.route("/fb-login")
+def fb_login():
+    facebook_login()
+
+
+@app.route("/fb-callback")
+def callback():
+    facebook_callback()
 
 
 @app.route('/end')
@@ -57,4 +78,8 @@ def end_():
 
 
 if __name__ == "__main__":
+    from src.models.Model import db
+
+    db.init_app(app)
+
     app.run(host='0.0.0.0', port=4000)

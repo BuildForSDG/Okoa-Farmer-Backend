@@ -1,6 +1,9 @@
-from flask import jsonify
+import json
+
+from flask import jsonify, make_response
 from flask_restful import Resource, reqparse
 from src.models.user import UserModel
+
 
 
 class UserRegister(Resource):
@@ -17,6 +20,18 @@ class UserRegister(Resource):
                         type=str,
                         required=True,
                         help="This field cannot be blank.")
+    parser.add_argument('firstname',
+                        type=str,
+                        required=True,
+                        help="This field cannot be blank.")
+    parser.add_argument('lastname',
+                        type=str,
+                        required=True,
+                        help="This field cannot be blank.")
+    parser.add_argument('residence', type=str)
+    parser.add_argument('address', type=str)
+    parser.add_argument('phonenumber', type=str)
+    parser.add_argument('emailaddress', type=str)
 
     def post(self):
         data = UserRegister.parser.parse_args()
@@ -25,9 +40,9 @@ class UserRegister(Resource):
             return {'message': 'A user with that username already exists'}, 400
         user = UserModel(**data)
         user.save_to_db()
+        return {'message': 'User created successfully.'}, 201
 
     def get(self):
-        user_info = {'name': 'kijana', 'age': 50, 'role': 'software developer'}
-        return jsonify(user_info)
-
-        return {'message': 'User created successfully.'}, 201
+        users = UserModel.query.all()
+        us_d = json.dumps(str(users))
+        return {'message': 'data fetched successfully', 'data': us_d}, 200
