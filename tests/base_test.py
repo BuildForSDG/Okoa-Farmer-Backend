@@ -16,9 +16,9 @@ class BaseTest(TestCase):
     @classmethod
     def setUpClass(cls):
         app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Masaki2017$$@localhost/okoafarmer?charset=utf8mb4'
+        # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Masaki2017$$@localhost/okoafarmer'
         app.config['DEBUG'] = False
         app.config['PROPAGATE_EXCEPTIONS'] = True
-
         with app.app_context():
             db.init_app(app)
 

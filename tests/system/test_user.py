@@ -11,6 +11,37 @@ user_dict = {'username': 'username', 'firstname': 'firstname', 'lastname': 'last
 
 class UserTest(BaseTest):
 
+    def setUp(self):
+        super(UserTest, self).setUp()
+        with app.test_client() as client:
+            with self.app_context():
+                UserModel('username', 'firstname', 'lastname', 'residence', 'address', 'phonenumber', 'emailaddress',
+                          'password').save_to_db()
+                auth_request = client.post('/auth', data=json.dumps({'username': 'username', 'password': 'password'}),
+                                           headers={'Content-Type': 'application/json'})
+                auth_token = json.loads(auth_request.data)['access_token']
+                self.access_token = f'JWT {auth_token}'  # header ={'Authorization':'JWT '+auth_token}
+
+    def test_get_user_no_auth(self):
+        with app.test_client() as client:
+            with self.app_context():
+                response = client.get('/register')
+                self.assertEqual(response.status_code, 401)
+
+    def test_get_user_not_found(self):
+        with app.test_client() as client:
+            with self.app_context():
+                resp = client.get('/register', headers={'Authorization': self.access_token})
+                self.assertEqual(resp.status_code, 404)
+
+    def test_delete_user(self):
+        with app.test_client() as client:
+            with self.app_context():
+                resp = client.delete('/register')
+                self.assertEqual(resp.status_code, 200)
+                self.assertDictEqual({'message': 'Item deleted'},
+                                     json.loads(resp.data))
+
     def test_register_user(self):
         with app.test_client() as client:
             with self.app_context():
