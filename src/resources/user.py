@@ -1,5 +1,6 @@
 import json
 
+import bcrypt
 from flask import jsonify, make_response
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
@@ -38,7 +39,8 @@ class UserRegister(Resource):
     # @jwt_required()
     def post(self):
         data = UserRegister.parser.parse_args()
-        data['password'] = generate_password_hash(data['password'], method='sha256')
+        data['password'] = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
+        # data['password'] = generate_password_hash(data['password'], method='sha256')
 
         if UserModel.find_by_username(data['username']):
             return {'message': 'A user with that username already exists'}, 400

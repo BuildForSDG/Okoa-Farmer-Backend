@@ -1,13 +1,15 @@
-from datetime import datetime
+import json
 
-from flask import Flask, jsonify, Blueprint, request, make_response
+import bcrypt
+from flask import Flask, jsonify, request
+from flask_jwt import JWTError
 from flask_restful import Api
-from flask_jwt import JWT, JWTError
-from werkzeug.security import check_password_hash
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token,
+    get_jwt_identity
+)
 
 from src import google_auth
-import json
-from security import authenticate, identity
 from src.models.user import UserModel
 from src.resources.user import UserRegister
 from src.google_auth import logout
@@ -18,13 +20,10 @@ app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Masaki2017$$@localhost/okoafarmer'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SECRET_KEY'] = '#^#%^%&#BgdvttkkgyDDT&*%$'# to encode cookies
+app.config['JWT_SECRET_KEY'] = '#^#%^%&#BgdvttkkgyDDT&*%$'  # to encode cookies
 api = Api(app)
-# api_bp = Blueprint('api', __name__)
-# api = Api(api_bp)
-# app.register_blueprint(google_auth.app)
 
-jwt = JWT(app, authenticate, identity)  # /auth
+jwt = JWTManager(app)
 
 
 @app.errorhandler(JWTError)
@@ -44,27 +43,28 @@ def index():
     """
 
 
-# @app.route('/login', methods=['GET', 'POST'])
-@app.route('/login')
-def login_user():
-    auth = request.authorization
+@app.route('/login', methods=['POST'])
+def login():
+    try:
+        username = request.json.get('username', None)
+        password = request.json.get('password', None)
 
-    if not auth or not auth.username or not auth.password:
-        return make_response('Could not verify you', 401,
-                             {'Okoa Farmer Authentication': 'Basic realm: "login required"'})
+        if not username:
+            return 'Missing Username', 400
+        if not password:
+            return 'Missing password', 400
 
-    user = UserModel.query.filter_by(name=auth.username).first()
-    if not user:
-        return make_response('Could not verify you', 401,
-                             {'Okoa Farmer Authentication': 'Basic realm: "login required"'})
+        user = UserModel.query.filter_by(username=username).first()
+        if not user:
+            return 'User Not Found!', 404
 
-    if check_password_hash(user.password, auth.password):
-        token = jwt.encode(
-            {'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
-            app.config['SECRET_KEY'])
-        return jsonify({'token': token.decode('UTF-8')})
-
-    return make_response('could not verify', 401, {'Okoa farmer Authentication': 'Basic realm: "login required"'})
+        if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+            access_token = create_access_token(identity={"username": username})
+            return {"access_token": access_token}, 200
+        else:
+            return 'Invalid Login Info!', 400
+    except AttributeError:
+        return 'Provide a Username and Password in JSON format in the request body', 400
 
 
 # app.register_blueprint(google_auth.app)
@@ -100,9 +100,15 @@ def callback():
     facebook_callback()
 
 
+@app.route("/kujuana",methods=['GET'])
+@jwt_required
+def testing_things():
+    return "The beaty of it all"
+
+
 if __name__ == "__main__":
     from src.models.Model import db
 
     db.init_app(app)
 
-    app.run(host='0.0.0.0', port=4000,debug=True)
+    app.run(host='0.0.0.0', port=4000, debug=True)
