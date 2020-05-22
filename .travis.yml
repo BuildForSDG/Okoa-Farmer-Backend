@@ -11,14 +11,14 @@ install:
 
 before_script:
   - mysql -e 'CREATE DATABASE okoa_farmer_db;'
-  - sudo mysql -e 'select database();'
+#  - sudo mysql -e 'select database();'
   - sudo mysql -e 'SHOW DATABASES;'
   - sudo mysql -e 'USE okoa_farmer_db;'
-  - sudo mysql -e 'select database();'
+#  - sudo mysql -e 'select database();'
   - sudo mysql --version
-#  - python3 migrate.py db init
-#  - python3 migrate.py db migrate
-#  - python3 migrate.py db upgrade
+#  - python migrate.py db init
+#  - python migrate.py db migrate
+#  - python migrate.py db upgrade
 
 
 script:
