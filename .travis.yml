@@ -1,16 +1,20 @@
-{
-  "language": "python",
-  "os": [
-    "linux"
-  ],
-  "dist": "xenial",
-  "python": [
-    "-\"3.6\""
-  ],
-  "install": [
-    "pip install -r requirements.txt"
-  ],
-  "script": [
-    "python manage.py test"
-  ]
-}
+language: python
+
+python:
+  - "3.7-dev"
+
+services:
+  - mysql
+
+install:
+  - pip install -r requirements.txt
+
+before_script:
+  - mysql -e 'CREATE DATABASE okoa_farmer_db;'
+#  - python3 migrate.py db init
+#  - python3 migrate.py db migrate
+#  - python3 migrate.py db upgrade
+
+
+script:
+  - python manage.py test
