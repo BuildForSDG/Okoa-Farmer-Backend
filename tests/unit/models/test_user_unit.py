@@ -1,7 +1,7 @@
 from src.models.user import UserModel
-from tests.unit.unit_base_test import UnitBaseTest
+from tests.unit.test_base_unit import TestBaseUnit
 
-class TestUserUnit(UnitBaseTest):
+class TestUserUnit(TestBaseUnit):
     def test_user_unit(self):
         #(self, username, firstname, lastname, residence, address, phonenumber, emailaddress, password)
         user =UserModel('username','firstname', 'lastname', 'residence', 'address', 'phonenumber', 'emailaddress','password')

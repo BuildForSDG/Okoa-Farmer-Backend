@@ -1,7 +1,7 @@
 from src.models.user import UserModel
-from tests.base_test import BaseTest
+from tests.test_base import TestBase
 
-class TestUserIntegration(BaseTest):
+class TestUserIntegration(TestBase):
     def test_user_integration(self):
         with self.app_context():
             user =UserModel('username','firstname', 'lastname', 'residence', 'address', 'phonenumber', 'emailaddress','password')

@@ -2,7 +2,7 @@ import bcrypt
 from flask_jwt_extended import create_access_token
 
 from src.models.user import UserModel
-from tests.base_test import BaseTest
+from tests.test_base import TestBase
 import json
 from src.app import app
 
@@ -12,7 +12,7 @@ user_dict = {'username': 'username', 'firstname': 'firstname', 'lastname': 'last
              'password': 'password'}
 
 
-class TestUserSystem(BaseTest):
+class TestUserSystem(TestBase):
 
     def setUp(self):
         super(TestUserSystem, self).setUp()

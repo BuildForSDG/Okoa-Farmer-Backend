@@ -4,6 +4,6 @@ from src.app import app
 
 
 
-class UnitBaseTest(TestCase):
+class TestBaseUnit(TestCase):
     pass
 

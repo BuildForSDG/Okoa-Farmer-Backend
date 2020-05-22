@@ -11,7 +11,7 @@ from src.app import app
 from src.models.Model import db
 
 
-class BaseTest(TestCase):
+class TestBase(TestCase):
 
     @classmethod
     def setUpClass(cls):
