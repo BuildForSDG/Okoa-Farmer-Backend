@@ -78,3 +78,11 @@ class UserRegister(Resource):
             result.append(user_data)
 
         return jsonify({'users': result})
+
+
+    def delete(self, name):
+        user = UserModel.find_by_username(name)
+        if user:
+            user.delete_from_db()
+
+        return jsonify({'message': 'User Deleted'})

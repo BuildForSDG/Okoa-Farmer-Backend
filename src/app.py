@@ -32,6 +32,7 @@ def auth_error_handler(err):
 
 
 # Route
+# api.add_resource(UserRegister, '/register/<string:name>')
 api.add_resource(UserRegister, '/register')
 
 
