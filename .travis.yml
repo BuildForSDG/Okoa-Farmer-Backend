@@ -10,15 +10,17 @@ install:
   - pip install -r requirements.txt
 
 before_script:
+  #  - # works
+  #  - mysql -e 'CREATE DATABASE okoa_farmer_db;'
+  #  - sudo mysql -e 'SHOW DATABASES;'
+  #  - sudo mysql -e 'USE okoa_farmer_db;'
+  #  - sudo mysql --version
+  ##############  - trial section #####################
   - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('Masaki2017$$') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
   - sudo service mysql restart
-  - mysql -e 'CREATE DATABASE okoa_farmer_db;'
-  - sudo mysql -uroot -pMasaki2017$$
-#  - sudo mysql -e 'select database();'
-  - sudo mysql -e 'SHOW DATABASES;'
-  - sudo mysql -e 'USE okoa_farmer_db;'
-#  - sudo mysql -e 'select database();'
-  - sudo mysql --version
+  - sudo mysql -uroot -pMasaki2017$$ 'CREATE DATABASE okoa_farmer_db;'
+  - sudo mysql -uroot -pMasaki2017$$  'SHOW DATABASES;'
+  - sudo mysql -uroot -pMasaki2017$$  'USE okoa_farmer_db;'
 #  - python migrate.py db init
 #  - python migrate.py db migrate
 #  - python migrate.py db upgrade
