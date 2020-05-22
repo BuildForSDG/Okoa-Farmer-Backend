@@ -12,10 +12,10 @@ user_dict = {'username': 'username', 'firstname': 'firstname', 'lastname': 'last
              'password': 'password'}
 
 
-class UserTest(BaseTest):
+class TestUserSystem(BaseTest):
 
     def setUp(self):
-        super(UserTest, self).setUp()
+        super(TestUserSystem, self).setUp()
         with app.test_client() as client:
             with self.app_context():
                 UserModel('username', 'firstname', 'lastname', 'residence', 'address', 'phonenumber', 'emailaddress',
