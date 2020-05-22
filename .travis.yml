@@ -8,17 +8,13 @@ services:
 
 install:
   - pip install -r requirements.txt
-  - pip install pytest
 
 before_script:
-  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('Masaki2017$$') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-  - sudo service mysql restart
-  - sudo mysql_upgrade -u root -pMasaki2017$$
-  - sudo mysql -uroot -pMasaki2017$$ 'CREATE DATABASE okoa_farmer_db;'
-  - sudo mysql -uroot -pMasaki2017$$  'select database();'
-  - sudo mysql -uroot -pMasaki2017$$  'SHOW DATABASES;'
-  - sudo mysql -uroot -pMasaki2017$$  'USE okoa_farmer_db;'
-#  - sudo mysql -e 'select database();'
+  - mysql -e 'CREATE DATABASE okoa_farmer_db;'
+  - sudo mysql -e 'select database();'
+  - sudo mysql -e 'SHOW DATABASES;'
+  - sudo mysql -e 'USE okoa_farmer_db;'
+  - sudo mysql -e 'select database();'
   - sudo mysql --version
 #  - python3 migrate.py db init
 #  - python3 migrate.py db migrate
