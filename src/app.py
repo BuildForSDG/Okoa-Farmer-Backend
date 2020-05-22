@@ -97,6 +97,7 @@ def fb_login():
 
 @app.route("/fb-callback")
 def callback():
+    print('apa nayoo nafika')
     facebook_callback()
 
 

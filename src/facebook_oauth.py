@@ -6,7 +6,7 @@ from requests_oauthlib.compliance_fixes import facebook_compliance_fix
 from flask import jsonify
 
 # Your ngrok url, obtained after running "ngrok http 5000"
-URL = "https://43017492.ngrok.io"
+URL = "https://9d46b2d6.ngrok.io"
 
 FB_CLIENT_ID = os.environ.get("FB_CLIENT_ID")
 FB_CLIENT_SECRET = os.environ.get("FB_CLIENT_SECRET")
@@ -27,8 +27,10 @@ def facebook_login():
         FB_CLIENT_ID, redirect_uri=URL + "/fb-callback", scope=FB_SCOPE
     )
     authorization_url, _ = facebook.authorization_url(FB_AUTHORIZATION_BASE_URL)
+    print('apa kwa login')
     return flask.redirect(authorization_url)
     # return jsonify(authorization_url)
+
 
 def facebook_callback():
     facebook = requests_oauthlib.OAuth2Session(
