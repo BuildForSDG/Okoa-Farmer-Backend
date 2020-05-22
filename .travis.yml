@@ -11,6 +11,7 @@ install:
   - pip install pytest
 
 before_script:
+  - echo "USE mysql;\nUPDATE user SET password='Masaki2017$$' WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root -pMasaki2017$$
   - mysql -e 'CREATE DATABASE okoa_farmer_db;'
   - sudo mysql -e 'select database();'
   - sudo mysql -e 'SHOW DATABASES;'
