@@ -11,10 +11,13 @@ from flask_jwt_extended import (
 
 from src import google_auth
 from src.models.user import UserModel
+from src.resources.permission import PermissionRegister
+from src.resources.role import RoleRegister
 from src.resources.user import UserRegister
 from src.google_auth import logout
 from src.facebook_oauth import facebook_login, facebook_callback
 from src.google_auth import google_auth_redirect
+from src.resources.user_role import UserRoleRegister
 
 app = Flask(__name__)
 
@@ -31,9 +34,11 @@ def auth_error_handler(err):
     return jsonify({'message': 'Could not authorize. Did you include a valid Authorization header?'}), 401
 
 
-# Route
-# api.add_resource(UserRegister, '/register/<string:name>')
-api.add_resource(UserRegister, '/register')
+# Routes
+api.add_resource(UserRegister, '/register/<string:name>')
+api.add_resource(PermissionRegister, '/permissions/<string:name>')
+api.add_resource(RoleRegister, '/roles/<string:name>')
+api.add_resource(UserRoleRegister, '/user/roles/<string:name>')
 
 
 @app.route("/")
@@ -102,7 +107,7 @@ def callback():
     facebook_callback()
 
 
-@app.route("/kujuana",methods=['GET'])
+@app.route("/kujuana", methods=['GET'])
 @jwt_required
 def testing_things():
     return "The beaty of it all"
