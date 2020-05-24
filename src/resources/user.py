@@ -1,10 +1,7 @@
-import json
-
 import bcrypt
-from flask import jsonify, make_response
-from flask_restful import Resource, reqparse
+from flask import jsonify
 from flask_jwt import jwt_required
-from werkzeug.security import generate_password_hash
+from flask_restful import Resource, reqparse
 
 from src.models.user import UserModel
 
@@ -37,7 +34,7 @@ class UserRegister(Resource):
     parser.add_argument('emailaddress', type=str)
 
     # @jwt_required()
-    def post(self):
+    def post(self,name):
         data = UserRegister.parser.parse_args()
         data['password'] = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
         # data['password'] = generate_password_hash(data['password'], method='sha256')
@@ -60,7 +57,7 @@ class UserRegister(Resource):
         return user.json()
 
     # @jwt_required()
-    def get(self):
+    def get(self,name):
         users = UserModel.query.all()
         result = []
 
