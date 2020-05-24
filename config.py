@@ -3,4 +3,4 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 SQLALCHEMY_ECHO = False
 SQLALCHEMY_TRACK_MODIFICATIONS = True
-SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:Masaki2017$$@localhost/okoa_farmer_db"
+SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:''@localhost/okoa_farmer_db"
