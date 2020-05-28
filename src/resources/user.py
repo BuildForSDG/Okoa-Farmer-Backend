@@ -1,6 +1,6 @@
 import bcrypt
 from flask import jsonify
-from flask_jwt import jwt_required
+from flask_jwt_extended import *
 from flask_restful import Resource, reqparse
 
 from src.models.user import UserModel
@@ -45,7 +45,7 @@ class UserRegister(Resource):
         user.save_to_db()
         return {'message': 'User created successfully.'}, 201
 
-    @jwt_required()
+    @jwt_required
     def put(self, name):
         data = UserRegister.parser.parse_args()
         user = UserModel.find_by_name(name)
@@ -56,8 +56,7 @@ class UserRegister(Resource):
         user.save_to_db()
         return user.json()
 
-        # @jwt_required()
-
+    @jwt_required
     def get(self):
         data = UserRegister.parser.parse_args()
         user = UserModel.find_by_username(data['username'])
@@ -73,6 +72,7 @@ class UserRegister(Resource):
 
         return jsonify({'users': _data})
 
+    @jwt_required
     def delete(self, name):
         user = UserModel.find_by_username(name)
         if user:
@@ -84,7 +84,7 @@ class UserRegister(Resource):
 # get all users
 class UserGet(Resource):
 
-    # @jwt_required()
+    @jwt_required
     def get(self):
         users = UserModel.query.all()
         result = []

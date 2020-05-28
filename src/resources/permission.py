@@ -16,7 +16,7 @@ class PermissionRegister(Resource):
                         required=True,
                         help="This field cannot be blank.")
 
-    # @jwt_required()
+    @jwt_required
     def post(self):
         data = PermissionRegister.parser.parse_args()
 
@@ -26,7 +26,7 @@ class PermissionRegister(Resource):
         user.save_to_db()
         return {'message': 'Permission created successfully.'}, 201
 
-    @jwt_required()
+    @jwt_required
     def put(self, name):
         data = PermissionModel.parser.parse_args()
         permission = PermissionModel.find_by_name(name)
@@ -37,12 +37,11 @@ class PermissionRegister(Resource):
         permission.save_to_db()
         return permission.json()
 
-        # @jwt_required()
-
+    @jwt_required
     def get(self):
         data = PermissionRegister.parser.parse_args()
 
-        permissions= PermissionModel.find_by_name(data['name'])
+        permissions = PermissionModel.find_by_name(data['name'])
 
         _data = {}
         _data['id'] = permissions.id
@@ -50,6 +49,7 @@ class PermissionRegister(Resource):
 
         return jsonify({'permissions': _data})
 
+    @jwt_required
     def delete(self, name):
         permission = PermissionModel.find_by_name(name)
         if permission:
@@ -61,7 +61,7 @@ class PermissionRegister(Resource):
 # get all permissions
 class PermissionGet(Resource):
 
-    # @jwt_required()
+    @jwt_required
     def get(self):
         permissions = PermissionModel.query.all()
         result = []

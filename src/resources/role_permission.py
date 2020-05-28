@@ -20,18 +20,17 @@ class RolePermissionRegister(Resource):
                         required=True,
                         help="This field cannot be blank.")
 
-
-    # @jwt_required()
-    def post(self,name):
+    @jwt_required
+    def post(self):
         data = RolePermissionRegister.parser.parse_args()
 
-        if RolePermissionModel.find_by_id(data['roleid'],data['permissionid']):
+        if RolePermissionModel.find_by_id(data['roleid'], data['permissionid']):
             return {'message': 'A role with that permission already exists'}, 400
         user = RolePermissionModel(**data)
         user.save_to_db()
         return {'message': 'Role Permission created successfully.'}, 201
 
-    @jwt_required()
+    @jwt_required
     def put(self, id):
         data = RolePermissionRegister.parser.parse_args()
         role = RolePermissionModel.find_by_name(id)
@@ -43,22 +42,18 @@ class RolePermissionRegister(Resource):
         role.save_to_db()
         return role.json()
 
-    # @jwt_required()
+    @jwt_required
     def get(self):
         data = RolePermissionRegister.parser.parse_args()
-        permissions= RolePermissionModel.find_by_id(data['roleid'],data['permissionid'])
-
-
+        permissions = RolePermissionModel.find_by_id(data['roleid'], data['permissionid'])
 
         role_permission_data = {}
         role_permission_data['roleid'] = permissions.roleid
         role_permission_data['permissionid'] = permissions.permissionid
 
-
         return jsonify({'permissions': role_permission_data})
 
-
-
+    @jwt_required
     def delete(self, id):
         role_permission = RolePermissionModel.find_by_id(id)
         if role_permission:
@@ -66,10 +61,11 @@ class RolePermissionRegister(Resource):
 
         return jsonify({'message': 'Role Permission Deleted'})
 
-#get all role permissions
+
+# get all role permissions
 class RolePermissionGet(Resource):
 
-    # @jwt_required()
+    @jwt_required
     def get(self):
         permissions = RolePermissionModel.query.all()
         result = []
@@ -78,7 +74,6 @@ class RolePermissionGet(Resource):
             role_permission_data = {}
             role_permission_data['roleid'] = permission.roleid
             role_permission_data['permissionid'] = permission.permissionid
-
 
             result.append(role_permission_data)
 
