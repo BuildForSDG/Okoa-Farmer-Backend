@@ -28,14 +28,14 @@ class TestRoleSystem(TestBase):
     #             resp = client.get('/roles', data=roles_dict, headers={'Authorization': self.access_token})
     #             self.assertEqual(resp.status_code, 200)
 
-    def test_register_duplicate_permission(self):
-        with app.test_client() as client:
-            with self.app_context():
-                client.post('/roles', data=roles_dict)
-                response = client.post('/roles', data=roles_dict)
-
-                self.assertEqual(response.status_code, 400)
-                self.assertDictEqual({'message': 'A role with that name already exists'}, json.loads(response.data))
+    # def test_register_duplicate_permission(self):
+    #     with app.test_client() as client:
+    #         with self.app_context():
+    #             client.post('/roles', data=roles_dict)
+    #             response = client.post('/roles', data=roles_dict)
+    #
+    #             self.assertEqual(response.status_code, 400)
+    #             self.assertDictEqual({'message': 'A role with that name already exists'}, json.loads(response.data))
 
     # def test_delete_permission(self):
     #     with app.test_client() as client:

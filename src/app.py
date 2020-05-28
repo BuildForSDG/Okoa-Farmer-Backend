@@ -9,6 +9,7 @@ from flask_jwt_extended import (
     get_jwt_identity
 )
 
+from security import authenticate, identity
 from src import google_auth
 from src.models.user import UserModel
 from src.models.role import RoleModel
@@ -33,17 +34,20 @@ app = Flask(__name__)
 # local
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Masaki2017$$@localhost/okoa_farmer_db'
 
+# server
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b2b1802e9376f5:91ac6855@us-cdbr-east-06.cleardb.net/okoa_farmer_db?charset=utf8mb4'
 #server
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b2b1802e9376f5:91ac6855@us-cdbr-east-06.cleardb.net/heroku_e9e0456b7084334?charset=utf8mb4'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b2b1802e9376f5:91ac6855@us-cdbr-east-06.cleardb.net/heroku_e9e0456b7084334?charset=utf8mb4'
 
 # travis
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/okoa_farmer_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/okoa_farmer_db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['JWT_SECRET_KEY'] = '#^#%^%&#BgdvttkkgyDDT&*%$'  # to encode cookies
 api = Api(app)
 
 jwt = JWTManager(app)
+# jwt = JWT(app, authenticate, identity)
 
 
 @app.errorhandler(JWTError)
@@ -97,7 +101,6 @@ def login():
         return 'Provide a Username and Password in JSON format in the request body', 400
 
 
-# app.register_blueprint(google_auth.app)
 @app.route('/google/login')
 def google_login():
     if google_auth.is_logged_in():
@@ -124,6 +127,7 @@ def signOutUser():
 def testing_things():
     return "Testing tings!!!!!!"
 
+
 #############################################START OF FACEBOOK OAUTH #################################################
 
 # Your ngrok url, obtained after running "ngrok http 5000"
@@ -141,6 +145,7 @@ FB_SCOPE = ["email"]
 # This allows us to use a plain HTTP callback
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
+
 # app = flask.Flask(__name__)
 
 @app.route("/fb-login")
@@ -152,6 +157,7 @@ def facebook_login():
     print('apa kwa login')
     return flask.redirect(authorization_url)
     # return jsonify(authorization_url)
+
 
 @app.route("/fb-callback")
 def facebook_callback():
@@ -180,10 +186,7 @@ def facebook_callback():
     return jsonify({'name': name, 'email': email, 'img': picture_url, 'message': 'You have logged in successfully'})
 
 
-
 #############################################END OF FACEBOOK OAUTH #################################################
-
-
 
 
 if __name__ == "__main__":

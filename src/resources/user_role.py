@@ -20,7 +20,7 @@ class UserRoleRegister(Resource):
                         required=True,
                         help="This field cannot be blank.")
 
-    # @jwt_required()
+    @jwt_required
     def post(self):
         data = UserRoleRegister.parser.parse_args()
         if UserRoleModel.find_by_id(data['userid'], data['roleid']):
@@ -29,7 +29,7 @@ class UserRoleRegister(Resource):
         user_role.save_to_db()
         return {'message': 'User Role created successfully.'}, 201
 
-    @jwt_required()
+    @jwt_required
     def put(self, id):
         data = UserRoleRegister.parser.parse_args()
         user_role = UserRoleModel.find_by_id(id)
@@ -41,7 +41,7 @@ class UserRoleRegister(Resource):
         user_role.save_to_db()
         return user_role.json()
 
-    # @jwt_required()
+    @jwt_required
     def get(self):
         data = UserRoleRegister.parser.parse_args()
         user = UserRoleModel.find_by_id(data['userid'], data['roleid'])
@@ -52,7 +52,7 @@ class UserRoleRegister(Resource):
 
         return jsonify({'user_roles': user_role_data})
 
-
+    @jwt_required
     def delete(self, id):
         user_role = UserRoleModel.find_by_id(id)
         if user_role:
@@ -64,7 +64,7 @@ class UserRoleRegister(Resource):
 # get all user roles
 class UserRoleGet(Resource):
 
-    # @jwt_required()
+    @jwt_required
     def get(self):
         user_role = UserRoleModel.query.all()
         result = []

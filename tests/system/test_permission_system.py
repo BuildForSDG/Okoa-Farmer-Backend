@@ -29,14 +29,14 @@ class TestUserSystem(TestBase):
     #             resp = client.get('/permissions',data=permissions_dict, headers={'Authorization': self.access_token})
     #             self.assertEqual(resp.status_code, 200)
 
-    def test_register_duplicate_permission(self):
-        with app.test_client() as client:
-            with self.app_context():
-                client.post('/permissions', data=permissions_dict)
-                response = client.post('/permissions', data=permissions_dict)
-
-                self.assertEqual(response.status_code, 400)
-                self.assertDictEqual({'message': 'Permission with that name already exists'}, json.loads(response.data))
+    # def test_register_duplicate_permission(self):
+    #     with app.test_client() as client:
+    #         with self.app_context():
+    #             client.post('/permissions', data=permissions_dict)
+    #             response = client.post('/permissions', data=permissions_dict)
+    #
+    #             self.assertEqual(response.status_code, 400)
+    #             self.assertDictEqual({'message': 'Permission with that name already exists'}, json.loads(response.data))
 
     # def test_delete_permission(self):
     #     with app.test_client() as client:
