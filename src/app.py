@@ -193,11 +193,8 @@ def facebook_callback():
 
 
 #############################################END OF FACEBOOK OAUTH #################################################
-
+from src.models.Model import db
+db.init_app(app)
 
 if __name__ == "__main__":
-    from src.models.Model import db
-
-    db.init_app(app)
-
     app.run(host='0.0.0.0', port=5000, debug=True)
