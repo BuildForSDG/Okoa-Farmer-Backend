@@ -6,7 +6,7 @@ from requests_oauthlib.compliance_fixes import facebook_compliance_fix
 from flask import jsonify
 
 # Your ngrok url, obtained after running "ngrok http 5000"
-URL = "https://9d46b2d6.ngrok.io"
+URL = "https://8b335cb8a43d.ngrok.io"
 
 FB_CLIENT_ID = os.environ.get("FB_CLIENT_ID")
 FB_CLIENT_SECRET = os.environ.get("FB_CLIENT_SECRET")
@@ -56,3 +56,6 @@ def facebook_callback():
     picture_url = facebook_user_data.get("picture", {}).get("data", {}).get("url")
 
     return jsonify({'name': name, 'email': email, 'img': picture_url, 'message': 'You have logged in successfully'})
+
+# if __name__ == "__main__":
+#     app.run(debug=True)
