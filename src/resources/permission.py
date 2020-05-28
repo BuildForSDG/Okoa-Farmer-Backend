@@ -17,7 +17,7 @@ class PermissionRegister(Resource):
                         help="This field cannot be blank.")
 
     # @jwt_required()
-    def post(self,name):
+    def post(self):
         data = PermissionRegister.parser.parse_args()
 
         if PermissionModel.find_by_name(data['name']):
@@ -37,8 +37,32 @@ class PermissionRegister(Resource):
         permission.save_to_db()
         return permission.json()
 
+        # @jwt_required()
+
+    def get(self):
+        data = PermissionRegister.parser.parse_args()
+
+        permissions= PermissionModel.find_by_name(data['name'])
+
+        _data = {}
+        _data['id'] = permissions.id
+        _data['name'] = permissions.name
+
+        return jsonify({'permissions': _data})
+
+    def delete(self, name):
+        permission = PermissionModel.find_by_name(name)
+        if permission:
+            permission.delete_from_db()
+
+        return jsonify({'message': 'Permission Deleted'})
+
+
+# get all permissions
+class PermissionGet(Resource):
+
     # @jwt_required()
-    def get(self,name):
+    def get(self):
         permissions = PermissionModel.query.all()
         result = []
 
@@ -49,17 +73,3 @@ class PermissionRegister(Resource):
             result.append(user_data)
 
         return jsonify({'permissions': result})
-
-    # # @jwt_required()
-    # def get(self, name):
-    #     permissions = PermissionModel.find_by_name(name)
-    #     if permissions:
-    #         return permissions.json()
-    #     return {'message': 'Permission not found'}, 404
-
-    def delete(self, name):
-        permission = PermissionModel.find_by_name(name)
-        if permission:
-            permission.delete_from_db()
-
-        return jsonify({'message': 'Permission Deleted'})

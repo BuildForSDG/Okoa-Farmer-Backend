@@ -1,12 +1,8 @@
-import bcrypt
 from flask_jwt_extended import create_access_token
 
-from src.models.user import UserModel
-from src.models.role import RoleModel
-from src.models.user_role import UserRoleModel
-from tests.test_base import TestBase
-import json
 from src.app import app
+from src.models.user import UserModel
+from tests.test_base import TestBase
 
 user_dict = {'id': '2',"username":"testusername", 'password': 'testpassword'}
 role_dict = {'name': 'admin'}
@@ -22,7 +18,8 @@ class TestUserSystem(TestBase):
                 UserModel('username', 'firstname', 'lastname', 'residence', 'address', 'phonenumber', 'emailaddress',
                           'password').save_to_db()
                 username = 'username'
-                access_token = create_access_token(identity={"username": username})
+                password = 'password'
+                access_token = create_access_token(identity={"username": username,"password": password})
                 self.access_token = {"access_token": access_token}, 200
 
     # def test_get_user_not_found(self):

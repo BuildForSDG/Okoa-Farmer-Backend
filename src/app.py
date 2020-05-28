@@ -11,17 +11,28 @@ from flask_jwt_extended import (
 
 from src import google_auth
 from src.models.user import UserModel
-from src.resources.permission import PermissionRegister
-from src.resources.role import RoleRegister
-from src.resources.user import UserRegister
+from src.models.role import RoleModel
+
+from src.resources.permission import PermissionRegister, PermissionGet
+from src.resources.role import RoleRegister, RoleGet
+from src.resources.role_permission import RolePermissionRegister, RolePermissionGet
+from src.resources.user import UserRegister, UserGet
 from src.google_auth import logout
 from src.facebook_oauth import facebook_login, facebook_callback
 from src.google_auth import google_auth_redirect
-from src.resources.user_role import UserRoleRegister
+from src.resources.user_role import UserRoleRegister, UserRoleGet
 
 app = Flask(__name__)
 
+# local
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Masaki2017$$@localhost/okoa_farmer_db'
+
+#server
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b2b1802e9376f5:91ac6855@us-cdbr-east-06.cleardb.net/okoa_farmer_db?charset=utf8mb4'
+
+# travis
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/okoa_farmer_db'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['JWT_SECRET_KEY'] = '#^#%^%&#BgdvttkkgyDDT&*%$'  # to encode cookies
 api = Api(app)
@@ -35,10 +46,16 @@ def auth_error_handler(err):
 
 
 # Routes
-api.add_resource(UserRegister, '/register/<string:name>')
-api.add_resource(PermissionRegister, '/permissions/<string:name>')
-api.add_resource(RoleRegister, '/roles/<string:name>')
-api.add_resource(UserRoleRegister, '/user/roles/<string:name>')
+api.add_resource(UserRegister, '/register')
+api.add_resource(UserGet, '/register/get')
+api.add_resource(PermissionRegister, '/permissions')
+api.add_resource(PermissionGet, '/permissions/get')
+api.add_resource(RoleRegister, '/roles')
+api.add_resource(RoleGet, '/roles/get')
+api.add_resource(UserRoleRegister, '/user/roles')
+api.add_resource(UserRoleGet, '/user/roles/get')
+api.add_resource(RolePermissionRegister, '/role/permissions')
+api.add_resource(RolePermissionGet, '/role/permissions/get')
 
 
 @app.route("/")
@@ -65,7 +82,8 @@ def login():
             return 'User Not Found!', 404
 
         if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
-            access_token = create_access_token(identity={"username": username})
+            # access_token = create_access_token(identity={"username": username})
+            access_token = create_access_token(identity={"username": username, "password": password})
             return {"access_token": access_token}, 200
         else:
             return 'Invalid Login Info!', 400
@@ -103,14 +121,13 @@ def fb_login():
 
 @app.route("/fb-callback")
 def callback():
-    print('apa nayoo nafika')
     facebook_callback()
 
 
 @app.route("/kujuana", methods=['GET'])
 @jwt_required
 def testing_things():
-    return "The beaty of it all"
+    return "Testing tings!!!!!!"
 
 
 if __name__ == "__main__":
