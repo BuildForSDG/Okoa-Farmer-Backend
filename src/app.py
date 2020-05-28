@@ -1,4 +1,6 @@
 import json
+import logging
+import sys
 
 import bcrypt
 from flask import Flask, jsonify, request
@@ -45,6 +47,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b2b1802e9376f5:91ac6855
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['JWT_SECRET_KEY'] = '#^#%^%&#BgdvttkkgyDDT&*%$'  # to encode cookies
 api = Api(app)
+
+#log system errors
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
 
 jwt = JWTManager(app)
 # jwt = JWT(app, authenticate, identity)
