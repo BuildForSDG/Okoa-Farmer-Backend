@@ -25,29 +25,29 @@ class TestUserSystem(TestBase):
                 access_token = create_access_token(identity={"username": username,"password": password})
                 self.access_token = {"access_token": access_token}, 200
 
-    def test_get_user_not_found(self):
-        with app.test_client() as client:
-            with self.app_context():
-                resp = client.get('/register',data=user_dict, headers={'Authorization': self.access_token})
-                self.assertEqual(resp.status_code, 200)
+    # def test_get_user_not_found(self):
+    #     with app.test_client() as client:
+    #         with self.app_context():
+    #             resp = client.get('/register',data=user_dict)
+    #             self.assertEqual(resp.status_code, 200)
+    #
+    # def rest_register_and_login(self):
+    #     with app.test_client() as client:
+    #         with self.app_context():
+    #             client.post('/register', data=user_dict)
+    #             auth_request = client.post('/auth',
+    #                                        data=json.dumps({'username': 'test', 'password': '1234'}),
+    #                                        headers={'Content-Type': 'application/json'})
+    #             self.assertIn('access_token', json.loads(auth_request.data).keys())
 
-    def rest_register_and_login(self):
-        with app.test_client() as client:
-            with self.app_context():
-                client.post('/register', data=user_dict)
-                auth_request = client.post('/auth',
-                                           data=json.dumps({'username': 'test', 'password': '1234'}),
-                                           headers={'Content-Type': 'application/json'})
-                self.assertIn('access_token', json.loads(auth_request.data).keys())
-
-    def test_register_duplicate_user(self):
-        with app.test_client() as client:
-            with self.app_context():
-                client.post('/register', data=user_dict)
-                response = client.post('/register', data=user_dict)
-
-                self.assertEqual(response.status_code, 400)
-                self.assertDictEqual({'message': 'A user with that username already exists'}, json.loads(response.data))
+    # def test_register_duplicate_user(self):
+    #     with app.test_client() as client:
+    #         with self.app_context():
+    #             client.post('/register', data=user_dict)
+    #             response = client.post('/register', data=user_dict)
+    #
+    #             self.assertEqual(response.status_code, 400)
+    #             self.assertDictEqual({'message': 'A user with that username already exists'}, json.loads(response.data))
 
     # def test_delete_user(self):
     #     with app.test_client() as client:

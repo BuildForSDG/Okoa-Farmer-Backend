@@ -33,7 +33,6 @@ class UserRegister(Resource):
     parser.add_argument('phonenumber', type=str)
     parser.add_argument('emailaddress', type=str)
 
-    # @jwt_required()
     def post(self):
         data = UserRegister.parser.parse_args()
         data['password'] = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
