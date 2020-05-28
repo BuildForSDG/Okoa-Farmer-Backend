@@ -21,6 +21,12 @@ from src.google_auth import logout
 from src.facebook_oauth import facebook_login, facebook_callback
 from src.google_auth import google_auth_redirect
 from src.resources.user_role import UserRoleRegister, UserRoleGet
+import os
+
+import flask
+import requests_oauthlib
+from requests_oauthlib.compliance_fixes import facebook_compliance_fix
+from flask import jsonify
 
 app = Flask(__name__)
 
@@ -113,21 +119,71 @@ def signOutUser():
     return jsonify({'message': 'You are not currently logged in.'})
 
 
-# facebook routes
-@app.route("/fb-login")
-def fb_login():
-    facebook_login()
-
-
-@app.route("/fb-callback")
-def callback():
-    facebook_callback()
-
-
 @app.route("/kujuana", methods=['GET'])
 @jwt_required
 def testing_things():
     return "Testing tings!!!!!!"
+
+#############################################START OF FACEBOOK OAUTH #################################################
+
+# Your ngrok url, obtained after running "ngrok http 5000"
+URL = "https://okoafarmer.herokuapp.com"
+# URL = "https://8b335cb8a43d.ngrok.io"
+
+FB_CLIENT_ID = os.environ.get("FB_CLIENT_ID")
+FB_CLIENT_SECRET = os.environ.get("FB_CLIENT_SECRET")
+
+FB_AUTHORIZATION_BASE_URL = "https://www.facebook.com/dialog/oauth"
+FB_TOKEN_URL = "https://graph.facebook.com/oauth/access_token"
+
+FB_SCOPE = ["email"]
+
+# This allows us to use a plain HTTP callback
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+
+# app = flask.Flask(__name__)
+
+@app.route("/fb-login")
+def facebook_login():
+    facebook = requests_oauthlib.OAuth2Session(
+        FB_CLIENT_ID, redirect_uri=URL + "/fb-callback", scope=FB_SCOPE
+    )
+    authorization_url, _ = facebook.authorization_url(FB_AUTHORIZATION_BASE_URL)
+    print('apa kwa login')
+    return flask.redirect(authorization_url)
+    # return jsonify(authorization_url)
+
+@app.route("/fb-callback")
+def facebook_callback():
+    facebook = requests_oauthlib.OAuth2Session(
+        FB_CLIENT_ID, scope=FB_SCOPE, redirect_uri=URL + "/fb-callback"
+    )
+
+    # we need to apply a fix for Facebook here
+    facebook = facebook_compliance_fix(facebook)
+
+    facebook.fetch_token(
+        FB_TOKEN_URL,
+        client_secret=FB_CLIENT_SECRET,
+        authorization_response=flask.request.url,
+    )
+
+    # Fetch a protected resource, i.e. user profile, via Graph API
+    facebook_user_data = facebook.get(
+        "https://graph.facebook.com/me?fields=id,name,email,picture{url}"
+    ).json()
+
+    email = facebook_user_data["email"]
+    name = facebook_user_data["name"]
+    picture_url = facebook_user_data.get("picture", {}).get("data", {}).get("url")
+
+    return jsonify({'name': name, 'email': email, 'img': picture_url, 'message': 'You have logged in successfully'})
+
+
+
+#############################################END OF FACEBOOK OAUTH #################################################
+
+
 
 
 if __name__ == "__main__":
@@ -135,4 +191,4 @@ if __name__ == "__main__":
 
     db.init_app(app)
 
-    app.run(host='0.0.0.0', port=4000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
