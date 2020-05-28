@@ -18,7 +18,7 @@ class RoleRegister(Resource):
                         help="This field cannot be blank.")
 
     # @jwt_required()
-    def post(self,name):
+    def post(self):
         data = RoleRegister.parser.parse_args()
 
         if RoleModel.find_by_name(data['name']):
@@ -39,7 +39,29 @@ class RoleRegister(Resource):
         return role.json()
 
     # @jwt_required()
-    def get(self,name):
+    def get(self):
+        data = RoleRegister.parser.parse_args()
+        role =RoleModel.find_by_name(data['name'])
+        # role = RoleModel.find_by_id(data['id'])
+
+        _data = {}
+        _data['id'] = role.id
+        _data['name'] = role.name
+
+        return jsonify({'roles': _data})
+
+    def delete(self, name):
+        role = RoleModel.find_by_name(name)
+        if role:
+            role.delete_from_db()
+
+        return jsonify({'message': 'Role Deleted'})
+
+# get all user roles
+class RoleGet(Resource):
+
+    # @jwt_required()
+    def get(self):
         role = RoleModel.query.all()
         result = []
 
@@ -50,9 +72,3 @@ class RoleRegister(Resource):
 
         return jsonify({'roles': result})
 
-    def delete(self, name):
-        role = RoleModel.find_by_name(name)
-        if role:
-            role.delete_from_db()
-
-        return jsonify({'message': 'Role Deleted'})

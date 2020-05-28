@@ -21,12 +21,10 @@ class UserRoleRegister(Resource):
                         help="This field cannot be blank.")
 
     # @jwt_required()
-    def post(self,idname):
+    def post(self):
         data = UserRoleRegister.parser.parse_args()
-        print('kibeeeeeeeeeeeeeeeeeeeeeet')
-        print(data)
-        if UserRoleModel.find_by_id(data['id']):
-            return {'message': 'A user role with that id already exists'}, 400
+        if UserRoleModel.find_by_id(data['userid'], data['roleid']):
+            return {'message': 'A user with that role already exists'}, 400
         user_role = UserRoleModel(**data)
         user_role.save_to_db()
         return {'message': 'User Role created successfully.'}, 201
@@ -45,6 +43,29 @@ class UserRoleRegister(Resource):
 
     # @jwt_required()
     def get(self):
+        data = UserRoleRegister.parser.parse_args()
+        user = UserRoleModel.find_by_id(data['userid'], data['roleid'])
+
+        user_role_data = {}
+        user_role_data['userid'] = user.userid
+        user_role_data['roleid'] = user.roleid
+
+        return jsonify({'user_roles': user_role_data})
+
+
+    def delete(self, id):
+        user_role = UserRoleModel.find_by_id(id)
+        if user_role:
+            user_role.delete_from_db()
+
+        return jsonify({'message': 'User Role Deleted'})
+
+
+# get all user roles
+class UserRoleGet(Resource):
+
+    # @jwt_required()
+    def get(self):
         user_role = UserRoleModel.query.all()
         result = []
 
@@ -56,10 +77,3 @@ class UserRoleRegister(Resource):
             result.append(user_role_data)
 
         return jsonify({'user_role_data': result})
-
-    def delete(self, id):
-        user_role = UserRoleModel.find_by_id(id)
-        if user_role:
-            user_role.delete_from_db()
-
-        return jsonify({'message': 'User Role Deleted'})

@@ -34,7 +34,7 @@ class UserRegister(Resource):
     parser.add_argument('emailaddress', type=str)
 
     # @jwt_required()
-    def post(self,name):
+    def post(self):
         data = UserRegister.parser.parse_args()
         data['password'] = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
         # data['password'] = generate_password_hash(data['password'], method='sha256')
@@ -56,8 +56,36 @@ class UserRegister(Resource):
         user.save_to_db()
         return user.json()
 
+        # @jwt_required()
+
+    def get(self):
+        data = UserRegister.parser.parse_args()
+        user = UserModel.find_by_username(data['username'])
+
+        _data = {}
+        _data['username'] = user.username
+        _data['firstname'] = user.firstname
+        _data['lastname'] = user.lastname
+        _data['residence'] = user.residence
+        _data['address'] = user.address
+        _data['phonenumber'] = user.phonenumber
+        _data['emailaddress'] = user.emailaddress
+
+        return jsonify({'users': _data})
+
+    def delete(self, name):
+        user = UserModel.find_by_username(name)
+        if user:
+            user.delete_from_db()
+
+        return jsonify({'message': 'User Deleted'})
+
+
+# get all users
+class UserGet(Resource):
+
     # @jwt_required()
-    def get(self,name):
+    def get(self):
         users = UserModel.query.all()
         result = []
 
@@ -75,11 +103,3 @@ class UserRegister(Resource):
             result.append(user_data)
 
         return jsonify({'users': result})
-
-
-    def delete(self, name):
-        user = UserModel.find_by_username(name)
-        if user:
-            user.delete_from_db()
-
-        return jsonify({'message': 'User Deleted'})

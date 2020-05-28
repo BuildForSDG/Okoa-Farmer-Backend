@@ -22,11 +22,11 @@ class RolePermissionRegister(Resource):
 
 
     # @jwt_required()
-    def post(self):
+    def post(self,name):
         data = RolePermissionRegister.parser.parse_args()
 
-        if RolePermissionModel.find_by_id(data['id']):
-            return {'message': 'A role permission with that id already exists'}, 400
+        if RolePermissionModel.find_by_id(data['roleid'],data['permissionid']):
+            return {'message': 'A role with that permission already exists'}, 400
         user = RolePermissionModel(**data)
         user.save_to_db()
         return {'message': 'Role Permission created successfully.'}, 201
@@ -45,6 +45,32 @@ class RolePermissionRegister(Resource):
 
     # @jwt_required()
     def get(self):
+        data = RolePermissionRegister.parser.parse_args()
+        permissions= RolePermissionModel.find_by_id(data['roleid'],data['permissionid'])
+
+
+
+        role_permission_data = {}
+        role_permission_data['roleid'] = permissions.roleid
+        role_permission_data['permissionid'] = permissions.permissionid
+
+
+        return jsonify({'permissions': role_permission_data})
+
+
+
+    def delete(self, id):
+        role_permission = RolePermissionModel.find_by_id(id)
+        if role_permission:
+            role_permission.delete_from_db()
+
+        return jsonify({'message': 'Role Permission Deleted'})
+
+#get all role permissions
+class RolePermissionGet(Resource):
+
+    # @jwt_required()
+    def get(self):
         permissions = RolePermissionModel.query.all()
         result = []
 
@@ -57,11 +83,3 @@ class RolePermissionRegister(Resource):
             result.append(role_permission_data)
 
         return jsonify({'permissions': result})
-
-
-    def delete(self, id):
-        role_permission = RolePermissionModel.find_by_id(id)
-        if role_permission:
-            role_permission.delete_from_db()
-
-        return jsonify({'message': 'Role Permission Deleted'})
