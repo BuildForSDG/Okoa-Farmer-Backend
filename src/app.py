@@ -14,8 +14,6 @@ from flask_jwt_extended import (
 )
 from flask_restful import Api
 from requests_oauthlib.compliance_fixes import facebook_compliance_fix
-
-from src import google_auth
 from src.google_auth import google_auth_redirect
 from src.google_auth import logout
 from src.models.user import UserModel
