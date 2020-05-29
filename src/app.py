@@ -1,35 +1,29 @@
 import json
 import logging
+import os
 import sys
 
 import bcrypt
-from flask import Flask, jsonify, request
+import flask
+import requests_oauthlib
+from flask import Flask, request
+from flask import jsonify
 from flask_jwt import JWTError
-from flask_restful import Api
 from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
-    get_jwt_identity
+    JWTManager, jwt_required, create_access_token
 )
+from flask_restful import Api
+from requests_oauthlib.compliance_fixes import facebook_compliance_fix
 
-from security import authenticate, identity
 from src import google_auth
+from src.google_auth import google_auth_redirect
+from src.google_auth import logout
 from src.models.user import UserModel
-from src.models.role import RoleModel
-
 from src.resources.permission import PermissionRegister, PermissionFilter
 from src.resources.role import RoleRegister, RoleFilter
 from src.resources.role_permission import RolePermissionRegister, RolePermissionFilter
 from src.resources.user import UserRegister, UserFilter
-from src.google_auth import logout
-from src.facebook_oauth import facebook_login, facebook_callback
-from src.google_auth import google_auth_redirect
 from src.resources.user_role import UserRoleRegister, UserRoleFilter
-import os
-
-import flask
-import requests_oauthlib
-from requests_oauthlib.compliance_fixes import facebook_compliance_fix
-from flask import jsonify
 
 app = Flask(__name__)
 
