@@ -31,10 +31,10 @@ app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Masaki2017$$@localhost/okoa_farmer_db?charset=utf8mb4'
 
 # server
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b2b1802e9376f5:91ac6855@us-cdbr-east-06.cleardb.net/okoa_farmer_db?charset=utf8mb4'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b2b1802e9376f5:91ac6855@us-cdbr-east-06.cleardb.net/okoa_farmer_db?charset=utf8mb4'
 
 # travis
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/okoa_farmer_db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/okoa_farmer_db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['JWT_SECRET_KEY'] = '#^#%^%&#BgdvttkkgyDDT&*%$'  # to encode cookies
@@ -185,7 +185,7 @@ def facebook_callback():
 
 #############################################END OF FACEBOOK OAUTH #################################################
 from src.models.Model import db
-
 db.init_app(app)
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
