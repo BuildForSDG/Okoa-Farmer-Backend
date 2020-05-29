@@ -1,6 +1,8 @@
+import json
+
 from flask import jsonify
-from flask_jwt import jwt_required
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import *
 
 from src.models.permission import PermissionModel
 
@@ -19,12 +21,11 @@ class PermissionRegister(Resource):
     @jwt_required
     def post(self):
         data = PermissionRegister.parser.parse_args()
-
         if PermissionModel.find_by_name(data['name']):
-            return {'message': 'Permission with that name already exists'}, 400
-        user = PermissionModel(**data)
-        user.save_to_db()
-        return {'message': 'Permission created successfully.'}, 201
+            return jsonify({'message': 'Permission with that name already exists'}, 400)
+        permission = PermissionModel(**data)
+        permission.save_to_db()
+        return jsonify({'message': 'Permission created successfully.'}, 201)
 
     @jwt_required
     def put(self, name):
@@ -39,30 +40,6 @@ class PermissionRegister(Resource):
 
     @jwt_required
     def get(self):
-        data = PermissionRegister.parser.parse_args()
-
-        permissions = PermissionModel.find_by_name(data['name'])
-
-        _data = {}
-        _data['id'] = permissions.id
-        _data['name'] = permissions.name
-
-        return jsonify({'permissions': _data})
-
-    @jwt_required
-    def delete(self, name):
-        permission = PermissionModel.find_by_name(name)
-        if permission:
-            permission.delete_from_db()
-
-        return jsonify({'message': 'Permission Deleted'})
-
-
-# get all permissions
-class PermissionGet(Resource):
-
-    @jwt_required
-    def get(self):
         permissions = PermissionModel.query.all()
         result = []
 
@@ -73,3 +50,25 @@ class PermissionGet(Resource):
             result.append(user_data)
 
         return jsonify({'permissions': result})
+
+
+# filter permissions by given id
+class PermissionFilter(Resource):
+
+    @jwt_required
+    def delete(self, id):
+        permission = PermissionModel.find_by_id(id)
+        if permission:
+            permission.delete_from_db()
+            return jsonify({'message': 'Permission Deleted'})
+        return jsonify({'message': 'Permission not Found'})
+
+    @jwt_required
+    def get(self,id):
+        permission = PermissionModel.find_by_id(id)
+        if permission:
+            _data = {}
+            _data['id'] = permission.id
+            _data['name'] = permission.name
+            return jsonify({'permissions': _data})
+        return jsonify({'message': 'Permission not Found'})

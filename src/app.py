@@ -16,14 +16,14 @@ from src import google_auth
 from src.models.user import UserModel
 from src.models.role import RoleModel
 
-from src.resources.permission import PermissionRegister, PermissionGet
-from src.resources.role import RoleRegister, RoleGet
-from src.resources.role_permission import RolePermissionRegister, RolePermissionGet
-from src.resources.user import UserRegister, UserGet
+from src.resources.permission import PermissionRegister, PermissionFilter
+from src.resources.role import RoleRegister, RoleFilter
+from src.resources.role_permission import RolePermissionRegister, RolePermissionFilter
+from src.resources.user import UserRegister, UserFilter
 from src.google_auth import logout
 from src.facebook_oauth import facebook_login, facebook_callback
 from src.google_auth import google_auth_redirect
-from src.resources.user_role import UserRoleRegister, UserRoleGet
+from src.resources.user_role import UserRoleRegister, UserRoleFilter
 import os
 
 import flask
@@ -34,12 +34,10 @@ from flask import jsonify
 app = Flask(__name__)
 
 # local
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Masaki2017$$@localhost/okoa_farmer_db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Masaki2017$$@localhost/okoa_farmer_db?charset=utf8mb4'
 
 # server
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b2b1802e9376f5:91ac6855@us-cdbr-east-06.cleardb.net/okoa_farmer_db?charset=utf8mb4'
-#server
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b2b1802e9376f5:91ac6855@us-cdbr-east-06.cleardb.net/heroku_e9e0456b7084334?charset=utf8mb4'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b2b1802e9376f5:91ac6855@us-cdbr-east-06.cleardb.net/okoa_farmer_db?charset=utf8mb4'
 
 # travis
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/okoa_farmer_db'
@@ -48,12 +46,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['JWT_SECRET_KEY'] = '#^#%^%&#BgdvttkkgyDDT&*%$'  # to encode cookies
 api = Api(app)
 
-#log system errors
+# log system errors
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
 
 jwt = JWTManager(app)
-# jwt = JWT(app, authenticate, identity)
 
 
 @app.errorhandler(JWTError)
@@ -63,15 +60,15 @@ def auth_error_handler(err):
 
 # Routes
 api.add_resource(UserRegister, '/register')
-api.add_resource(UserGet, '/register/get')
+api.add_resource(UserFilter, '/register/<string:id>')
 api.add_resource(PermissionRegister, '/permissions')
-api.add_resource(PermissionGet, '/permissions/get')
+api.add_resource(PermissionFilter, '/permissions/<string:id>')
 api.add_resource(RoleRegister, '/roles')
-api.add_resource(RoleGet, '/roles/get')
+api.add_resource(RoleFilter, '/roles/<string:id>')
 api.add_resource(UserRoleRegister, '/user/roles')
-api.add_resource(UserRoleGet, '/user/roles/get')
+api.add_resource(UserRoleFilter, '/user/roles/<string:userid>/<string:roleid>')
 api.add_resource(RolePermissionRegister, '/role/permissions')
-api.add_resource(RolePermissionGet, '/role/permissions/get')
+api.add_resource(RolePermissionFilter, '/role/permissions/<string:roleid>/<string:permissionid>')
 
 
 @app.route("/")

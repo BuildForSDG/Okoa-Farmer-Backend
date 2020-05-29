@@ -57,34 +57,6 @@ class UserRegister(Resource):
 
     @jwt_required
     def get(self):
-        data = UserRegister.parser.parse_args()
-        user = UserModel.find_by_username(data['username'])
-
-        _data = {}
-        _data['username'] = user.username
-        _data['firstname'] = user.firstname
-        _data['lastname'] = user.lastname
-        _data['residence'] = user.residence
-        _data['address'] = user.address
-        _data['phonenumber'] = user.phonenumber
-        _data['emailaddress'] = user.emailaddress
-
-        return jsonify({'users': _data})
-
-    @jwt_required
-    def delete(self, name):
-        user = UserModel.find_by_username(name)
-        if user:
-            user.delete_from_db()
-
-        return jsonify({'message': 'User Deleted'})
-
-
-# get all users
-class UserGet(Resource):
-
-    @jwt_required
-    def get(self):
         users = UserModel.query.all()
         result = []
 
@@ -102,3 +74,32 @@ class UserGet(Resource):
             result.append(user_data)
 
         return jsonify({'users': result})
+
+
+# filter user by given id
+class UserFilter(Resource):
+
+    @jwt_required
+    def delete(self,id):
+        user = UserModel.find_by_id(id)
+        if user:
+            user.delete_from_db()
+            return jsonify({'message': 'User Deleted'})
+
+        return jsonify({'message': 'User not Found'})
+
+    @jwt_required
+    def get(self,id):
+        user = UserModel.find_by_id(id)
+        if user:
+            _data = {}
+            _data['username'] = user.username
+            _data['firstname'] = user.firstname
+            _data['lastname'] = user.lastname
+            _data['residence'] = user.residence
+            _data['address'] = user.address
+            _data['phonenumber'] = user.phonenumber
+            _data['emailaddress'] = user.emailaddress
+            return jsonify({'users': _data})
+
+        return jsonify({'message': 'User not Found'})
