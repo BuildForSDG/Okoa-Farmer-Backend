@@ -1,20 +1,20 @@
-language: python
-
-python:
-  - "3.7"
-
-services:
-  - mysql
-
-install:
-  - pip install -r requirements.txt
-
-before_script:
-   ############### working connection to MySQL Database #################################
-    - mysql -e 'CREATE DATABASE okoa_farmer_db;'
-    - sudo mysql -e 'SHOW DATABASES;'
-    - sudo mysql -e 'USE okoa_farmer_db;'
-    - sudo mysql --version
-
-script:
-  - python -m pytest tests/
+#language: python
+#
+#python:
+#  - "3.7"
+#
+#services:
+#  - mysql
+#
+#install:
+#  - pip install -r requirements.txt
+#
+#before_script:
+#  ############### working connection to MySQL Database #################################
+#  - mysql -e 'CREATE DATABASE okoa_farmer_db;'
+#  - sudo mysql -e 'SHOW DATABASES;'
+#  - sudo mysql -e 'USE okoa_farmer_db;'
+#  - sudo mysql --version
+#
+#script:
+#  - python -m pytest tests/
