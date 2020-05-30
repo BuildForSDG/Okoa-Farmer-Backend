@@ -33,6 +33,8 @@ from src.resources.user import UserRegister, UserFilter
 from src.resources.user_role import UserRoleRegister, UserRoleFilter
 
 app = Flask(__name__)
+db = SQLAlchemy()
+
 
 # local
 app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
@@ -184,6 +186,5 @@ def facebook_callback():
 
 #############################################END OF FACEBOOK OAUTH #################################################
 if __name__ == "__main__":
-    db = SQLAlchemy()
     db.init_app(app)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=4000, debug=True)
