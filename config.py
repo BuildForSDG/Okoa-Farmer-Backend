@@ -14,4 +14,4 @@ SQLALCHEMY_TRACK_MODIFICATIONS = True
 # SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:''@localhost/okoa_farmer_db"
 
 #aws
-SQLALCHEMY_DATABASE_URI = "mysql+pymysql://ubuntu:Masaki2017$$@34.219.149.98:22/okoa_farmer_db?charset=utf8mb4"
+SQLALCHEMY_DATABASE_URI = "mysql+pymysql://ubuntu:Masaki2017$$@localhost/okoa_farmer_db?charset=utf8mb4"
