@@ -24,3 +24,4 @@ bcrypt==3.1.7
 pycparser==2.19
 flask_jwt
 pytest
+mysqlclient
