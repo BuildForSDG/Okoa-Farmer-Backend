@@ -3,6 +3,11 @@ import logging
 import os
 import sys
 
+import config
+from src.models.Model import db
+
+from src import google_auth
+
 sys.path.insert(0, './src')
 
 import bcrypt
@@ -16,8 +21,8 @@ from flask_jwt_extended import (
 )
 from flask_restful import Api
 from requests_oauthlib.compliance_fixes import facebook_compliance_fix
-# from src.google_auth import google_auth_redirect
-# from src.google_auth import logout
+from src.google_auth import google_auth_redirect
+from src.google_auth import logout
 from src.models.user import UserModel
 from src.resources.permission import PermissionRegister, PermissionFilter
 from src.resources.role import RoleRegister, RoleFilter
@@ -28,14 +33,7 @@ from src.resources.user_role import UserRoleRegister, UserRoleFilter
 app = Flask(__name__)
 
 # local
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Masaki2017$$@localhost/okoa_farmer_db?charset=utf8mb4'
-
-# server
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://b2b1802e9376f5:91ac6855@us-cdbr-east-06.cleardb.net/okoa_farmer_db?charset=utf8mb4'
-
-# travis
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost/okoa_farmer_db'
-
+app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['JWT_SECRET_KEY'] = '#^#%^%&#BgdvttkkgyDDT&*%$'  # to encode cookies
 api = Api(app)
@@ -98,25 +96,25 @@ def login():
         return 'Provide a Username and Password in JSON format in the request body', 400
 
 
-# @app.route('/google/login')
-# def google_login():
-#     if google_auth.is_logged_in():
-#         user_info = google_auth.get_user_info()
-#         return jsonify({'user_info': json.dumps(user_info, indent=4), 'message': 'You have logged in successfully'})
-#
-#     return jsonify({'message': 'You are not currently logged in.'})
-#
-#
-# @app.route('/google/auth')
-# def goog_redirect():
-#     google_auth_redirect()
-#
-#
-# @app.route('/google/logout')
-# def signOutUser():
-#     if google_auth.is_logged_in():
-#         logout()
-#     return jsonify({'message': 'You are not currently logged in.'})
+@app.route('/google/login')
+def google_login():
+    if google_auth.is_logged_in():
+        user_info = google_auth.get_user_info()
+        return jsonify({'user_info': json.dumps(user_info, indent=4), 'message': 'You have logged in successfully'})
+
+    return jsonify({'message': 'You are not currently logged in.'})
+
+
+@app.route('/google/auth')
+def goog_redirect():
+    google_auth_redirect()
+
+
+@app.route('/google/logout')
+def signOutUser():
+    if google_auth.is_logged_in():
+        logout()
+    return jsonify({'message': 'You are not currently logged in.'})
 
 
 @app.route("/kujuana", methods=['GET'])
@@ -183,11 +181,6 @@ def facebook_callback():
 
 
 #############################################END OF FACEBOOK OAUTH #################################################
-from src.models.Model import db
-
-db.init_app(app)
-
-# def run():
-#     pass
-# if __name__ == "__main__":
-app.run(host='0.0.0.0', port=5000, debug=True)
+if __name__ == "__main__":
+    db.init_app(app)
+    app.run(host='0.0.0.0', port=5000, debug=True)
