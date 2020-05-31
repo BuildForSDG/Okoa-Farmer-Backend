@@ -7,6 +7,9 @@ import config
 from src.models.Model import db
 
 from src import google_auth
+from src.resources.farmer_rating import FarmerRatingRegister, FarmerRatingFilter, FarmerRatingIDFilter
+from src.resources.item import ItemRegister, ItemFilter
+from src.resources.item_category import ItemCategoryRegister, ItemCategoryFilter
 
 sys.path.insert(0, './src')
 
@@ -47,20 +50,35 @@ jwt = JWTManager(app)
 
 @app.errorhandler(JWTError)
 def auth_error_handler(err):
-    return jsonify({'message': 'Could not authorize. Did you include a valid Authorization header?'}), 401
+    return jsonify({'message': 'Could not authorize. Did you include a valid Authorization header?'}, 401)
 
 
-# Routes
+############################### Resource Routes for Okoa Farmer ################################
+# user registration
 api.add_resource(UserRegister, '/register')
 api.add_resource(UserFilter, '/register/<string:id>')
+# permissions
 api.add_resource(PermissionRegister, '/permissions')
 api.add_resource(PermissionFilter, '/permissions/<string:id>')
+# roles
 api.add_resource(RoleRegister, '/roles')
 api.add_resource(RoleFilter, '/roles/<string:id>')
+# user roles
 api.add_resource(UserRoleRegister, '/user/roles')
 api.add_resource(UserRoleFilter, '/user/roles/<string:userid>/<string:roleid>')
+# role permissions
 api.add_resource(RolePermissionRegister, '/role/permissions')
 api.add_resource(RolePermissionFilter, '/role/permissions/<string:roleid>/<string:permissionid>')
+# item
+api.add_resource(ItemRegister, '/item')
+api.add_resource(ItemFilter, '/item/<string:id>')
+# item category
+api.add_resource(ItemCategoryRegister, '/item/category')
+api.add_resource(ItemCategoryFilter, '/item/category/<string:id>')
+# farmer rating
+api.add_resource(FarmerRatingRegister, '/farmer/rating')
+api.add_resource(FarmerRatingIDFilter, '/farmer/rating/<string:id>')
+api.add_resource(FarmerRatingFilter, '/rating/<string:farmerid>/<string:itemid>/<string:ratedby>')
 
 
 @app.route("/")
@@ -181,6 +199,6 @@ def facebook_callback():
 
 
 #############################################END OF FACEBOOK OAUTH #################################################
-# if __name__ == "__main__":
-db.init_app(app)
-app.run(host='0.0.0.0', port=5000, debug=True)
+if __name__ == "__main__":
+    db.init_app(app)
+    app.run(host='0.0.0.0', port=4000, debug=True)
