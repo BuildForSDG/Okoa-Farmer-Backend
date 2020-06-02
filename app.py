@@ -11,7 +11,7 @@ from src.resources.farmer_rating import FarmerRatingRegister, FarmerRatingFilter
 from src.resources.item import ItemRegister, ItemFilter
 from src.resources.item_category import ItemCategoryRegister, ItemCategoryFilter
 
-sys.path.insert(0, './src')
+# sys.path.insert(0, './src')
 import bcrypt
 import flask
 import requests_oauthlib
