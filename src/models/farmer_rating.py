@@ -11,7 +11,7 @@ class FarmerRatingModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     farmerid = db.Column(db.Integer)
     itemid = db.Column(db.Integer)
-    ratedby = db.Column(db.Intege) #userid
+    ratedby = db.Column(db.Integer) #userid
     rating = db.Column(db.Integer)
 
     # id = db.Column(db.Integer, primary_key=True)
