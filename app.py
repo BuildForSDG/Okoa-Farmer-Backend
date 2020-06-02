@@ -136,7 +136,7 @@ def signOutUser():
 
 
 @app.route("/kujuana", methods=['GET'])
-@jwt_required
+# @jwt_required
 def testing_things():
     return "Testing tings!!!!!!"
 
@@ -196,7 +196,7 @@ def facebook_callback():
     picture_url = facebook_user_data.get("picture", {}).get("data", {}).get("url")
 
     return jsonify({'name': name, 'email': email, 'img': picture_url, 'message': 'You have logged in successfully'})
-
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+#
+#
+# if __name__ == "__main__":
+#     app.run(host='0.0.0.0', port=9000, debug=True)
