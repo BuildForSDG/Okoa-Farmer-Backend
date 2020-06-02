@@ -20,25 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13721af8-3390-43e1-879b-1efc75425263" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Okoa-Farmer-Backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Okoa-Farmer-Backend.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrate.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/farmer_rating.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/farmer_rating.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/item.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/item.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/farmer_rating.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/farmer_rating.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/item.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/item.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/item_category.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/item_category.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/permission.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/permission.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/role.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/role.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/role_permission.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/role_permission.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/user_role.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/user_role.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/wsgi.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
