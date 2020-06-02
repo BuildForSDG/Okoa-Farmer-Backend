@@ -28,26 +28,15 @@ class PermissionRegister(Resource):
         return jsonify({'message': 'Permission created successfully.'}, 201)
 
     @jwt_required
-    def put(self, name):
-        data = PermissionModel.parser.parse_args()
-        permission = PermissionModel.find_by_name(name)
-        if permission is None:
-            permission = PermissionModel(name, **data)
-        else:
-            permission.name = data['name']
-        permission.save_to_db()
-        return permission.json()
-
-    @jwt_required
     def get(self):
         permissions = PermissionModel.query.all()
         result = []
 
         for permission in permissions:
-            user_data = {}
-            user_data['name'] = permission.name
-
-            result.append(user_data)
+            _data = {}
+            _data['id'] = permission.id
+            _data['name'] = permission.name
+            result.append(_data)
 
         return jsonify({'permissions': result})
 
@@ -56,19 +45,30 @@ class PermissionRegister(Resource):
 class PermissionFilter(Resource):
 
     @jwt_required
-    def delete(self, id):
-        permission = PermissionModel.find_by_id(id)
+    def delete(self, name):
+        permission = PermissionModel.find_by_name(name)
         if permission:
             permission.delete_from_db()
             return jsonify({'message': 'Permission Deleted'})
         return jsonify({'message': 'Permission not Found'})
 
     @jwt_required
-    def get(self,id):
-        permission = PermissionModel.find_by_id(id)
+    def get(self, name):
+        permission = PermissionModel.find_by_name(name)
         if permission:
             _data = {}
             _data['id'] = permission.id
             _data['name'] = permission.name
             return jsonify({'permissions': _data})
         return jsonify({'message': 'Permission not Found'})
+
+    @jwt_required
+    def put(self, name):
+        data = PermissionRegister.parser.parse_args()
+        permission = PermissionModel.find_by_name(name)
+        if permission:
+            permission.name = data['name']
+            permission.save_to_db()
+            return jsonify({'message': 'permission updated successfully'})
+        # permission = PermissionModel(id, **data)
+        return jsonify({'message': 'permission not Found'})

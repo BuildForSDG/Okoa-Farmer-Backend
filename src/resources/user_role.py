@@ -33,18 +33,6 @@ class UserRoleRegister(Resource):
         return jsonify({'message': 'User Role created successfully.'}, 201)
 
     @jwt_required
-    def put(self, id):
-        data = UserRoleRegister.parser.parse_args()
-        user_role = UserRoleModel.find_by_id(id)
-        if user_role is None:
-            user_role = UserRoleModel(id, **data)
-        else:
-            user_role.userid = data['userid']
-            user_role.roleid = data['roleid']
-        user_role.save_to_db()
-        return user_role.json()
-
-    @jwt_required
     def get(self):
         user_role = UserRoleModel.query.all()
         result = []
@@ -55,7 +43,6 @@ class UserRoleRegister(Resource):
             user_role_data['roleid'] = user.roleid
 
             result.append(user_role_data)
-
         return jsonify({'user_role_data': result})
 
     @jwt_required
@@ -88,3 +75,16 @@ class UserRoleFilter(Resource):
             return jsonify({'user_roles': _data})
 
         return jsonify({'message': 'User Role not Found'})
+
+
+    @jwt_required
+    def put(self, userid, roleid):
+        data = UserRoleRegister.parser.parse_args()
+        role_permission = UserRoleModel.find_by_id(userid, roleid)
+        if role_permission:
+            role_permission.userid = data['userid']
+            role_permission.roleid = data['roleid']
+            role_permission.save_to_db()
+            return jsonify({'message': 'User Role updated successfully'})
+        return jsonify({'message': 'User Role not Found'})
+

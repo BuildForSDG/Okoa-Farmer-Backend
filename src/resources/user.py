@@ -45,17 +45,6 @@ class UserRegister(Resource):
         return {'message': 'User created successfully.'}, 201
 
     @jwt_required
-    def put(self, name):
-        data = UserRegister.parser.parse_args()
-        user = UserModel.find_by_name(name)
-        if user is None:
-            user = UserModel(name, **data)
-        else:
-            user.username = data['username']
-        user.save_to_db()
-        return user.json()
-
-    @jwt_required
     def get(self):
         users = UserModel.query.all()
         result = []
@@ -103,3 +92,20 @@ class UserFilter(Resource):
             return jsonify({'users': _data})
 
         return jsonify({'message': 'User not Found'})
+
+    @jwt_required
+    def put(self, id):
+        data = UserRegister.parser.parse_args()
+        user = UserModel.find_by_username(id)
+        if user:
+            user.username = user.username
+            user.firstname = data['firstname']
+            user.lastname= data['lastname']
+            user.residence = data['residence']
+            user.address = data['address']
+            user.phonenumber = data['phonenumber']
+            user.emailaddress= data['emailaddress']
+            user.save_to_db()
+            return jsonify({'message': 'User updated successfully'})
+        return jsonify({'message': 'User not Found'})
+

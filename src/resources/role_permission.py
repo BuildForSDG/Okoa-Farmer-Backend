@@ -43,18 +43,6 @@ class RolePermissionRegister(Resource):
 
         return jsonify({'role_permissions': result})
 
-    @jwt_required
-    def put(self, id):
-        data = RolePermissionRegister.parser.parse_args()
-        role = RolePermissionModel.find_by_name(id)
-        if role is None:
-            role = RolePermissionModel(id, **data)
-        else:
-            role.roleid = data['roleid']
-            role.permissionid = data['permissionid']
-        role.save_to_db()
-        return role.json()
-
 
 # filter Role Permission by given id
 class RolePermissionFilter(Resource):
@@ -77,4 +65,15 @@ class RolePermissionFilter(Resource):
             _data['permissionid'] = role_permission.permissionid
             return jsonify({'users': _data})
 
+        return jsonify({'message': 'Role Permission not Found'})
+
+    @jwt_required
+    def put(self, roleid, permissionid):
+        data = RolePermissionRegister.parser.parse_args()
+        role_permission = RolePermissionModel.find_by_id(roleid, permissionid)
+        if role_permission:
+            role_permission.roleid = data['roleid']
+            role_permission.permissionid = data['permissionid']
+            role_permission.save_to_db()
+            return jsonify({'message': 'Role Permission updated successfully'})
         return jsonify({'message': 'Role Permission not Found'})

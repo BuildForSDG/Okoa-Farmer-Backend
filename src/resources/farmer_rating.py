@@ -54,17 +54,6 @@ class FarmerRatingRegister(Resource):
 
         return jsonify({'roles': result})
 
-    @jwt_required
-    def put(self, farmerid, itemid, ratedby):
-        data = FarmerRatingRegister.parser.parse_args()
-        farmer_r = FarmerRatingModel.find_by_farmerid(data['farmerid'], data['itemid'], data['ratedby'])
-        if farmer_r is None:
-            farmer_r = FarmerRatingModel(farmerid, itemid, ratedby ** data)
-        else:
-            farmer_r = FarmerRatingModel(farmerid, itemid, ratedby ** data)
-        farmer_r.save_to_db()
-        return farmer_r.json()
-
 
 # filter farmer rating by given farmerid, itemid, ratedby
 class FarmerRatingFilter(Resource):
@@ -92,6 +81,17 @@ class FarmerRatingFilter(Resource):
 
         return jsonify({'message': 'Farmer Item Rating not Found'})
 
+    @jwt_required
+    def put(self, farmerid, itemid, ratedby):
+        data = FarmerRatingRegister.parser.parse_args()
+        farmer_r = FarmerRatingModel.find_by_farmerid(farmerid, itemid, ratedby)
+        if farmer_r:
+            farmer_r.rating = data['rating']
+            farmer_r.save_to_db()
+            return jsonify({'message': 'Farmer rating updated successfully'})
+        return jsonify({'message': 'Farmer rating not Found'})
+
+
 # filter farmer rating by id
 class FarmerRatingIDFilter(Resource):
 
@@ -118,3 +118,15 @@ class FarmerRatingIDFilter(Resource):
 
         return jsonify({'message': 'Farmer Item Rating not Found'})
 
+    @jwt_required
+    def put(self, id):
+        data = FarmerRatingRegister.parser.parse_args()
+        farmer_r = FarmerRatingModel.find_by_id(id)
+        if farmer_r:
+            farmer_r.farmerid = data['farmerid']
+            farmer_r.itemid = data['itemid']
+            farmer_r.ratedby = data['ratedby']
+            farmer_r.rating = data['rating']
+            farmer_r.save_to_db()
+            return jsonify({'message': 'Farmer rating updated successfully'})
+        return jsonify({'message': 'Farmer rating not Found'})

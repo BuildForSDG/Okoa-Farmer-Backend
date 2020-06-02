@@ -37,17 +37,6 @@ class ItemCategoryRegister(Resource):
 
         return jsonify({'roles': result})
 
-    @jwt_required
-    def put(self, categoryname):
-        data = ItemCategoryRegister.parser.parse_args()
-        item_categories = ItemCategoryModel.find_by_categoryname(categoryname)
-        if item_categories is None:
-            item_categories = ItemCategoryModel(categoryname, **data)
-        else:
-            item_categories.categoryname = data['categoryname']
-        item_categories.save_to_db()
-        return item_categories.json()
-
 
 # filter Role by given id
 class ItemCategoryFilter(Resource):
@@ -72,3 +61,14 @@ class ItemCategoryFilter(Resource):
             return jsonify({'item_categoriess': _data})
 
         return jsonify({'message': 'Item Category not Found'})
+
+    @jwt_required
+    def put(self, categoryname):
+        data = ItemCategoryRegister.parser.parse_args()
+        item_categories = ItemCategoryModel.find_by_categoryname(categoryname)
+        if item_categories:
+            item_categories.categoryname = data['categoryname']
+            item_categories.save_to_db()
+            return jsonify({'message': 'Category name updated successfully'})
+        ItemCategoryModel(categoryname, **data)
+        return jsonify({'message': 'Category name not Found'})

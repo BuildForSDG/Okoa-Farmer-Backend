@@ -12,7 +12,6 @@ from src.resources.item import ItemRegister, ItemFilter
 from src.resources.item_category import ItemCategoryRegister, ItemCategoryFilter
 
 sys.path.insert(0, './src')
-
 import bcrypt
 import flask
 import requests_oauthlib
@@ -34,11 +33,12 @@ from src.resources.user import UserRegister, UserFilter
 from src.resources.user_role import UserRoleRegister, UserRoleFilter
 
 app = Flask(__name__)
-
+app.config.from_object('config')
 # local
 app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['JWT_SECRET_KEY'] = '#^#%^%&#BgdvttkkgyDDT&*%$'  # to encode cookies
+app.config['JWT_SECRET_KEY'] = config.SECRET_KEY  # to encode cookies
+db.init_app(app)
 api = Api(app)
 
 # log system errors
@@ -59,7 +59,7 @@ api.add_resource(UserRegister, '/register')
 api.add_resource(UserFilter, '/register/<string:id>')
 # permissions
 api.add_resource(PermissionRegister, '/permissions')
-api.add_resource(PermissionFilter, '/permissions/<string:id>')
+api.add_resource(PermissionFilter, '/permissions/<string:name>')
 # roles
 api.add_resource(RoleRegister, '/roles')
 api.add_resource(RoleFilter, '/roles/<string:id>')
@@ -74,7 +74,7 @@ api.add_resource(ItemRegister, '/item')
 api.add_resource(ItemFilter, '/item/<string:id>')
 # item category
 api.add_resource(ItemCategoryRegister, '/item/category')
-api.add_resource(ItemCategoryFilter, '/item/category/<string:id>')
+api.add_resource(ItemCategoryFilter, '/item/category/<string:categoryname>')
 # farmer rating
 api.add_resource(FarmerRatingRegister, '/farmer/rating')
 api.add_resource(FarmerRatingIDFilter, '/farmer/rating/<string:id>')
@@ -198,7 +198,5 @@ def facebook_callback():
     return jsonify({'name': name, 'email': email, 'img': picture_url, 'message': 'You have logged in successfully'})
 
 
-#############################################END OF FACEBOOK OAUTH #################################################
 if __name__ == "__main__":
-    db.init_app(app)
-    app.run(host='0.0.0.0', port=4000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

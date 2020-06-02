@@ -45,17 +45,6 @@ class ItemRegister(Resource):
         return {'message': 'Item created successfully.'}, 201
 
     @jwt_required
-    def put(self, name):
-        data = ItemRegister.parser.parse_args()
-        item = ItemModel.find_by_itemname(name)
-        if item is None:
-            item = ItemModel(name, **data)
-        else:
-            item.itemname = data['itemname']
-        item.save_to_db()
-        return item.json()
-
-    @jwt_required
     def get(self):
         items = ItemModel.query.all()
         result = []
@@ -80,7 +69,7 @@ class ItemRegister(Resource):
 class ItemFilter(Resource):
 
     @jwt_required
-    def delete(self,id):
+    def delete(self, id):
         items = ItemModel.find_by_id(id)
         if items:
             items.delete_from_db()
@@ -89,7 +78,7 @@ class ItemFilter(Resource):
         return jsonify({'message': 'Item not Found'})
 
     @jwt_required
-    def get(self,id):
+    def get(self, id):
         items = ItemModel.find_by_id(id)
         if items:
             _data = {}
@@ -103,4 +92,21 @@ class ItemFilter(Resource):
             _data['photo_path'] = items.photo_path
             return jsonify({'items': _data})
 
+        return jsonify({'message': 'Item not Found'})
+
+    @jwt_required
+    def put(self, id):
+        data = ItemRegister.parser.parse_args()
+        item = ItemModel.find_by_id(id)
+        if item:
+            item.itemname = data['itemname']
+            item.userid = data['userid']
+            item.categoryid = data['categoryid']
+            item.location = data['location']
+            item.cost = data['cost']
+            item.status = data['status']
+            item.description = data['description']
+            item.photo_path = data['photo_path']
+            item.save_to_db()
+            return jsonify({'message': 'Item updated successfully'})
         return jsonify({'message': 'Item not Found'})

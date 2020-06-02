@@ -30,23 +30,13 @@ class RoleRegister(Resource):
         role = RoleModel.query.all()
         result = []
 
-        for user in role:
-            role_data = {}
-            role_data['name'] = user.name
-            result.append(role_data)
+        for role in role:
+            _data = {}
+            _data['id'] = role.id
+            _data['name'] = role.name
+            result.append(_data)
 
         return jsonify({'roles': result})
-
-    @jwt_required
-    def put(self, name):
-        data = RoleRegister.parser.parse_args()
-        role = RoleModel.find_by_name(name)
-        if role is None:
-            role = RoleModel(name, **data)
-        else:
-            role.name = data['name']
-        role.save_to_db()
-        return role.json()
 
 
 # filter Role by given id
@@ -72,3 +62,14 @@ class RoleFilter(Resource):
             return jsonify({'roles': _data})
 
         return jsonify({'message': 'Role not Found'})
+
+    @jwt_required
+    def put(self, id):
+        data = RoleRegister.parser.parse_args()
+        role = RoleModel.find_by_name(id)
+        if role:
+            role.name = data['name']
+            role.save_to_db()
+            return jsonify({'message': 'Role updated successfully'})
+        return jsonify({'message': 'Role not Found'})
+
