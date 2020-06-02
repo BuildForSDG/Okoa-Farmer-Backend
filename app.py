@@ -37,6 +37,7 @@ app.config.from_object('config')
 # local
 app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['JWT_SECRET_KEY'] = config.SECRET_KEY  # to encode cookies
 db.init_app(app)
 api = Api(app)
@@ -101,13 +102,25 @@ def login():
             return 'Missing password', 400
 
         user = UserModel.query.filter_by(username=username).first()
+
         if not user:
-            return 'User Not Found!', 404
+            return jsonify('User Not Found!', 404)
 
         if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
             # access_token = create_access_token(identity={"username": username})
             access_token = create_access_token(identity={"username": username, "password": password})
-            return {"access_token": access_token}, 200
+            if user:
+                _data = {}
+                _data['username'] = user.username
+                _data['firstname'] = user.firstname
+                _data['lastname'] = user.lastname
+                _data['residence'] = user.residence
+                _data['address'] = user.address
+                _data['phonenumber'] = user.phonenumber
+                _data['emailaddress'] = user.emailaddress
+            print('dddddddddddddddd')
+            print(user.roles())
+            return jsonify({"access_token": access_token, "user_details": _data}, 200)
         else:
             return 'Invalid Login Info!', 400
     except AttributeError:
