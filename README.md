@@ -1,5 +1,6 @@
 A one-liner phrase describing this project or app
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fab78aee85ee47ae8cca6701672dc5a5)](https://app.codacy.com/gh/BuildForSDG/Okoa-Farmer-Backend?utm_source=github.com&utm_medium=referral&utm_content=BuildForSDG/Okoa-Farmer-Backend&utm_campaign=Badge_Grade_Settings)
 [![Codacy Badge](https://img.shields.io/badge/Code%20Quality-D-red)](https://img.shields.io/badge/Code%20Quality-D-red)
 
 
