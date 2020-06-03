@@ -7,6 +7,8 @@ import config
 from src.models.Model import db
 
 from src import google_auth
+from src.models.role import RoleModel
+from src.models.user_role import UserRoleModel
 from src.resources.farmer_rating import FarmerRatingRegister, FarmerRatingFilter, FarmerRatingIDFilter
 from src.resources.item import ItemRegister, ItemFilter
 from src.resources.item_category import ItemCategoryRegister, ItemCategoryFilter
@@ -102,7 +104,6 @@ def login():
             return 'Missing password', 400
 
         user = UserModel.query.filter_by(username=username).first()
-
         if not user:
             return jsonify('User Not Found!', 404)
 
@@ -111,6 +112,9 @@ def login():
             access_token = create_access_token(identity={"username": username, "password": password})
             if user:
                 _data = {}
+                _us_role = {}
+                _role = {}
+                _data['id'] = user.id
                 _data['username'] = user.username
                 _data['firstname'] = user.firstname
                 _data['lastname'] = user.lastname
@@ -118,9 +122,16 @@ def login():
                 _data['address'] = user.address
                 _data['phonenumber'] = user.phonenumber
                 _data['emailaddress'] = user.emailaddress
-            print('dddddddddddddddd')
-            print(user.roles())
-            return jsonify({"access_token": access_token, "user_details": _data}, 200)
+
+                user_role = UserRoleModel.query.filter_by(id=user.id).first()
+                if user_role:
+                    _us_role['userid'] = user_role.userid
+                    _us_role['roleid'] = user_role.roleid
+                    role_details = RoleModel.query.filter_by(id=user_role.roleid).first()
+                    if role_details:
+                        _role['id'] = role_details.id
+                        _role['name'] = role_details.name
+            return jsonify({"access_token": access_token, "user_details": _data, "roles": _role}, 200)
         else:
             return 'Invalid Login Info!', 400
     except AttributeError:
