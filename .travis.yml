@@ -14,6 +14,8 @@ before_script:
     - mysql -e 'CREATE DATABASE okoa_farmer_db;'
     - sudo mysql -e 'SHOW DATABASES;'
     - sudo mysql -e 'USE okoa_farmer_db;'
+    - sudo mysql -e 'USE okoa_farmer_db;'
+    - sudo mysql -e 'show tables;'
     - sudo mysql --version
 
 script:
