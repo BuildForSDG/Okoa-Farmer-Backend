@@ -9,20 +9,14 @@ class FarmerRatingModel(db.Model):
     __tablename__ = 'farmer_rating'
 
     id = db.Column(db.Integer, primary_key=True)
-    farmerid = db.Column(db.Integer)
-    itemid = db.Column(db.Integer)
-    ratedby = db.Column(db.Integer) #userid
+    farmerid = db.Column(db.Integer,db.ForeignKey('users.id'))
+    itemid = db.Column(db.Integer,db.ForeignKey('item_categories.id'))
+    ratedby = db.Column(db.Integer,unique=True) #userid
     rating = db.Column(db.Integer)
 
-    # id = db.Column(db.Integer, primary_key=True)
-    # farmerid = db.Column(db.Integer,db.ForeignKey('users.id'))
-    # itemid = db.Column(db.Integer,db.ForeignKey('item_categories.id'))
-    # ratedby = db.Column(db.Integer,db.ForeignKey('users.id')) #userid
-    # rating = db.Column(db.Integer)
+    user = relationship(UserModel, backref=backref("farmer_rating", cascade="all, delete-orphan"))
+    item_category = relationship(ItemCategoryModel, backref=backref("farmer_rating", cascade="all, delete-orphan"))
 
-    # user = relationship(UserModel, backref=backref("farmer_rating", cascade="all, delete-orphan"))
-    # item_category = relationship(ItemCategoryModel, backref=backref("farmer_rating", cascade="all, delete-orphan"))
-    #
 
     def __init__(self,farmerid,itemid,ratedby,rating):
         self.farmerid = farmerid

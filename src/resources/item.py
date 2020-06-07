@@ -38,11 +38,11 @@ class ItemRegister(Resource):
     @jwt_required
     def post(self):
         data = ItemRegister.parser.parse_args()
-        if ItemModel.find_by_itemname(data['itemname']):
+        if ItemModel.find_by_itemname(data['itemname'],data['userid']):
             return {'message': 'An Item with that name already exists'}, 400
         item = ItemModel(**data)
         item.save_to_db()
-        return {'message': 'Item created successfully.'}, 201
+        return {'message': 'Item created successfully.'}, 200
 
     @jwt_required
     def get(self):
@@ -62,7 +62,7 @@ class ItemRegister(Resource):
 
             result.append(_data)
 
-        return jsonify({'items': result})
+        return {'items': result, 'message':'successful transaction'}, 200
 
 
 # filter item by given id
@@ -90,9 +90,9 @@ class ItemFilter(Resource):
             _data['status'] = items.status
             _data['description'] = items.description
             _data['photo_path'] = items.photo_path
-            return jsonify({'items': _data})
+            return {'items': _data,'message':'successful transaction'}, 200
 
-        return jsonify({'message': 'Item not Found'})
+        return {'message': 'Item not Found'}, 400
 
     @jwt_required
     def put(self, id):
@@ -108,5 +108,5 @@ class ItemFilter(Resource):
             item.description = data['description']
             item.photo_path = data['photo_path']
             item.save_to_db()
-            return jsonify({'message': 'Item updated successfully'})
-        return jsonify({'message': 'Item not Found'})
+            return {'message': 'Item updated successfully'}, 200
+        return {'message': 'Item not Found'}, 400

@@ -9,7 +9,7 @@ and makes sure that it is a new, blank database each time.
 from unittest import TestCase
 
 import config
-from src.app import app
+from app import app
 from src.models.Model import db
 
 

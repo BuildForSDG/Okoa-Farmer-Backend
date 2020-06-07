@@ -27,7 +27,7 @@ class RolePermissionRegister(Resource):
             return {'message': 'A role with that permission already exists'}, 400
         user = RolePermissionModel(**data)
         user.save_to_db()
-        return {'message': 'Role Permission created successfully.'}, 201
+        return {'message': 'Role Permission created successfully.'}, 200
 
     @jwt_required
     def get(self):
@@ -41,7 +41,7 @@ class RolePermissionRegister(Resource):
 
             result.append(role_permission_data)
 
-        return jsonify({'role_permissions': result})
+        return {'role_permissions': result}, 200
 
 
 # filter Role Permission by given id
@@ -63,9 +63,9 @@ class RolePermissionFilter(Resource):
             _data['id'] = role_permission.id
             _data['roleid'] = role_permission.roleid
             _data['permissionid'] = role_permission.permissionid
-            return jsonify({'users': _data})
+            return {'users': _data}, 200
 
-        return jsonify({'message': 'Role Permission not Found'})
+        return {'message': 'Role Permission not Found'}, 400
 
     @jwt_required
     def put(self, roleid, permissionid):
@@ -75,5 +75,5 @@ class RolePermissionFilter(Resource):
             role_permission.roleid = data['roleid']
             role_permission.permissionid = data['permissionid']
             role_permission.save_to_db()
-            return jsonify({'message': 'Role Permission updated successfully'})
-        return jsonify({'message': 'Role Permission not Found'})
+            return {'message': 'Role Permission updated successfully'}, 200
+        return {'message': 'Role Permission not Found'}, 400

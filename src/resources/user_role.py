@@ -26,11 +26,11 @@ class UserRoleRegister(Resource):
     def post(self):
         data = UserRoleRegister.parser.parse_args()
         if UserRoleModel.find_by_id(data['userid'], data['roleid']):
-            return jsonify({'message': 'A user with that role already exists'}, 400)
+            return {'message': 'A user with that role already exists'}, 400
 
         user_role = UserRoleModel(**data)
         user_role.save_to_db()
-        return jsonify({'message': 'User Role created successfully.'}, 201)
+        return {'message': 'User Role created successfully.'}, 200
 
     @jwt_required
     def get(self):
@@ -72,7 +72,7 @@ class UserRoleFilter(Resource):
             _data['id'] = user_role.id
             _data['userid'] = user_role.userid
             _data['roleid'] = user_role.roleid
-            return jsonify({'user_roles': _data})
+            return jsonify({'user_roles': _data, 'message': 'successful transaction'})
 
         return jsonify({'message': 'User Role not Found'})
 

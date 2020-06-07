@@ -30,6 +30,10 @@ class RolePermissionModel(db.Model):
     def find_by_id(cls, roleid,permissionid):
         return cls.query.filter_by(roleid=roleid,permissionid=permissionid).first()
 
+    @classmethod
+    def findby_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()

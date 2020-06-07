@@ -1,6 +1,6 @@
 
 from unittest import TestCase
-from src.app import app
+from app import app
 
 
 

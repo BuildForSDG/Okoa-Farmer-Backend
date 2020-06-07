@@ -20,10 +20,10 @@ class RoleRegister(Resource):
     def post(self):
         data = RoleRegister.parser.parse_args()
         if RoleModel.find_by_name(data['name']):
-            return jsonify({'message': 'A role with that name already exists'}, 400)
+            return {'message': 'A role with that name already exists'}, 400
         user = RoleModel(**data)
         user.save_to_db()
-        return jsonify({'message': 'Role created successfully.'}, 201)
+        return {'message': 'Role created successfully.'}, 200
 
     @jwt_required
     def get(self):
@@ -72,4 +72,3 @@ class RoleFilter(Resource):
             role.save_to_db()
             return jsonify({'message': 'Role updated successfully'})
         return jsonify({'message': 'Role not Found'})
-

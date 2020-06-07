@@ -22,10 +22,10 @@ class PermissionRegister(Resource):
     def post(self):
         data = PermissionRegister.parser.parse_args()
         if PermissionModel.find_by_name(data['name']):
-            return jsonify({'message': 'Permission with that name already exists'}, 400)
+            return {'message': 'Permission with that name already exists'}, 400
         permission = PermissionModel(**data)
         permission.save_to_db()
-        return jsonify({'message': 'Permission created successfully.'}, 201)
+        return {'message': 'Permission created successfully.'}, 201
 
     @jwt_required
     def get(self):

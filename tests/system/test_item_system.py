@@ -3,13 +3,15 @@ import json
 from flask_jwt_extended import create_access_token
 
 from app import app
+from src.models.item_category import ItemCategoryModel
 from src.models.user import UserModel
 from tests.test_base import TestBase
 
-user_dict = {'username': 'username', 'firstname': 'firstname', 'lastname': 'lastname',
-             'residence': 'residence', 'address': 'address',
-             'phonenumber': 'phonenumber', 'emailaddress': 'emailaddress',
-             'password': 'password'}
+# 'itemname', 'userid', 'categoryid', 'location', 'cost', 'status','description', 'photo_path'
+item_dict = {'itemname': 'itemname', 'userid': '1', 'categoryid': '1',
+             'location': 'location', 'cost': '20',
+             'status': '1', 'description': 'description',
+             'photo_path': 'photo_path'}
 user_logins = {'username': 'username', 'password': 'password'}
 
 
@@ -28,28 +30,29 @@ class TestUserSystem(TestBase):
                 auth_token = access_token
                 self.access_token = f' Bearer {auth_token}'
 
-    # get user information
-    def test_get_user(self):
+    # get item information
+    def test_get_item(self):
         with app.test_client() as client:
             with self.app_context():
-                resp = client.get('/register', data=user_dict, headers={'Authorization': self.access_token})
+                resp = client.get('/item', data=item_dict, headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 200)
 
-    # try to register a user twice
-    def test_register_duplicate_user(self):
+    # try to register an item twice
+    def test_register_duplicate_item(self):
         with app.test_client() as client:
             with self.app_context():
-                client.post('/register', data=user_dict)
-                response = client.post('/register', data=user_dict)
+                ItemCategoryModel('categoryname').save_to_db()
+                client.post('/item', data=item_dict, headers={'Authorization': self.access_token})
+                response = client.post('/item', data=item_dict, headers={'Authorization': self.access_token})
                 self.assertEqual(response.status_code, 400)
-                self.assertDictEqual({'message': 'A user with that username already exists'}, json.loads(response.data))
+                self.assertDictEqual({'message': 'An Item with that name already exists'}, json.loads(response.data))
 
-    # test to delete user
-    def test_delete_user(self):
+    # test to delete item
+    def test_delete_item(self):
         with app.test_client() as client:
             with self.app_context():
-                client.post('/register', data=user_dict)
-                resp = client.delete('/register/1', headers={'Authorization': self.access_token})
+                client.post('/item', data=item_dict)
+                resp = client.delete('/item/1', headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 200)
-                self.assertDictEqual({'message': 'User Deleted'},
-                                     json.loads(resp.data))
+                # self.assertDictEqual({'message': 'Item Deleted'},
+                #                      json.loads(resp.data))

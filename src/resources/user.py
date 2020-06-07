@@ -36,13 +36,12 @@ class UserRegister(Resource):
     def post(self):
         data = UserRegister.parser.parse_args()
         data['password'] = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
-        # data['password'] = generate_password_hash(data['password'], method='sha256')
 
         if UserModel.find_by_username(data['username']):
             return {'message': 'A user with that username already exists'}, 400
         user = UserModel(**data)
         user.save_to_db()
-        return {'message': 'User created successfully.'}, 201
+        return {'message': 'User created successfully'}, 200
 
     @jwt_required
     def get(self):
@@ -62,7 +61,7 @@ class UserRegister(Resource):
 
             result.append(user_data)
 
-        return jsonify({'users': result})
+        return {'users': result, 'message': 'successful transaction'}, 200
 
 
 # filter user by given id
@@ -73,9 +72,9 @@ class UserFilter(Resource):
         user = UserModel.find_by_id(id)
         if user:
             user.delete_from_db()
-            return jsonify({'message': 'User Deleted'})
+            return {'message': 'User Deleted'}, 200
 
-        return jsonify({'message': 'User not Found'})
+        return {'message': 'User not Found'}, 400
 
     @jwt_required
     def get(self,id):
@@ -89,9 +88,9 @@ class UserFilter(Resource):
             _data['address'] = user.address
             _data['phonenumber'] = user.phonenumber
             _data['emailaddress'] = user.emailaddress
-            return jsonify({'users': _data})
+            return {'users': _data,'message':'success'}, 200
 
-        return jsonify({'message': 'User not Found'})
+        return {'message': 'User not Found'}, 400
 
     @jwt_required
     def put(self, id):
@@ -106,6 +105,6 @@ class UserFilter(Resource):
             user.phonenumber = data['phonenumber']
             user.emailaddress= data['emailaddress']
             user.save_to_db()
-            return jsonify({'message': 'User updated successfully'})
-        return jsonify({'message': 'User not Found'})
+            return {'message': 'User updated successfully'}, 200
+        return {'message': 'User not Found'}, 400
 

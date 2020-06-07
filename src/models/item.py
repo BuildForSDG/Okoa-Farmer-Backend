@@ -36,8 +36,8 @@ class ItemModel(db.Model):
         db.session.commit()
 
     @classmethod
-    def find_by_itemname(cls, itemname):
-        return cls.query.filter_by(itemname=itemname).first()
+    def find_by_itemname(cls, itemname,userid):
+        return cls.query.filter_by(itemname=itemname,userid = userid).first()
 
     @classmethod
     def find_by_id(cls, _id):

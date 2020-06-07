@@ -3,6 +3,8 @@ import logging
 import os
 import sys
 
+from flask_cors import CORS
+
 import config
 from src.models.Model import db
 
@@ -43,6 +45,7 @@ app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['JWT_SECRET_KEY'] = config.SECRET_KEY  # to encode cookies
 db.init_app(app)
 api = Api(app)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # log system errors
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
@@ -58,30 +61,30 @@ def auth_error_handler(err):
 
 ############################### Resource Routes for Okoa Farmer ################################
 # user registration
-api.add_resource(UserRegister, '/register')
-api.add_resource(UserFilter, '/register/<string:id>')
+api.add_resource(UserRegister, '/api/register')
+api.add_resource(UserFilter, '/api/register/<string:id>')
 # permissions
-api.add_resource(PermissionRegister, '/permissions')
-api.add_resource(PermissionFilter, '/permissions/<string:name>')
+api.add_resource(PermissionRegister, '/api/permissions')
+api.add_resource(PermissionFilter, '/api/permissions/<string:name>')
 # roles
-api.add_resource(RoleRegister, '/roles')
-api.add_resource(RoleFilter, '/roles/<string:id>')
+api.add_resource(RoleRegister, '/api/roles')
+api.add_resource(RoleFilter, '/api/roles/<string:id>')
 # user roles
-api.add_resource(UserRoleRegister, '/user/roles')
-api.add_resource(UserRoleFilter, '/user/roles/<string:userid>/<string:roleid>')
+api.add_resource(UserRoleRegister, '/api/user/roles')
+api.add_resource(UserRoleFilter, '/api/user/roles/<string:userid>/<string:roleid>')
 # role permissions
-api.add_resource(RolePermissionRegister, '/role/permissions')
-api.add_resource(RolePermissionFilter, '/role/permissions/<string:roleid>/<string:permissionid>')
+api.add_resource(RolePermissionRegister, '/api/role/permissions')
+api.add_resource(RolePermissionFilter, '/api/role/permissions/<string:roleid>/<string:permissionid>')
 # item
-api.add_resource(ItemRegister, '/item')
-api.add_resource(ItemFilter, '/item/<string:id>')
+api.add_resource(ItemRegister, '/api/item')
+api.add_resource(ItemFilter, '/api/item/<string:id>')
 # item category
-api.add_resource(ItemCategoryRegister, '/item/category')
-api.add_resource(ItemCategoryFilter, '/item/category/<string:categoryname>')
+api.add_resource(ItemCategoryRegister, '/api/item/category')
+api.add_resource(ItemCategoryFilter, '/api/item/category/<string:categoryname>')
 # farmer rating
-api.add_resource(FarmerRatingRegister, '/farmer/rating')
-api.add_resource(FarmerRatingIDFilter, '/farmer/rating/<string:id>')
-api.add_resource(FarmerRatingFilter, '/rating/<string:farmerid>/<string:itemid>/<string:ratedby>')
+api.add_resource(FarmerRatingRegister, '/api/farmer/rating')
+api.add_resource(FarmerRatingIDFilter, '/api/farmer/rating/<string:id>')
+api.add_resource(FarmerRatingFilter, '/api/rating/<string:farmerid>/<string:itemid>/<string:ratedby>')
 
 
 @app.route("/")
@@ -92,7 +95,7 @@ def index():
     """
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
     try:
         username = request.json.get('username', None)
@@ -108,7 +111,6 @@ def login():
             return jsonify('User Not Found!', 404)
 
         if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
-            # access_token = create_access_token(identity={"username": username})
             access_token = create_access_token(identity={"username": username, "password": password})
             if user:
                 _data = {}

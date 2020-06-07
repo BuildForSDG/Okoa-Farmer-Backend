@@ -3,6 +3,7 @@ from flask_jwt_extended import *
 from flask_restful import Resource, reqparse
 
 from src.models.farmer_rating import FarmerRatingModel
+from src.models.user import UserModel
 
 
 class FarmerRatingRegister(Resource):
@@ -32,11 +33,14 @@ class FarmerRatingRegister(Resource):
     @jwt_required
     def post(self):
         data = FarmerRatingRegister.parser.parse_args()
-        if FarmerRatingModel.find_by_farmerid(data['farmerid'], data['itemid'], data['ratedby']):
-            return jsonify({'message': 'Farmer Item Rating by that user already exists'}, 400)
-        farmer_r = FarmerRatingModel(**data)
-        farmer_r.save_to_db()
-        return jsonify({'message': 'Item rating created successfully.'}, 201)
+        user = UserModel.query.filter_by(id=data['ratedby']).first()
+        if user:
+            if FarmerRatingModel.find_by_farmerid(data['farmerid'], data['itemid'], data['ratedby']):
+                return {'message': 'Farmer Item Rating by that user already exists'}, 200
+            farmer_r = FarmerRatingModel(**data)
+            farmer_r.save_to_db()
+            return {'message': 'Item rating created successfully.'}, 200
+        return {'message': 'You are not registered.Kindly register to rate the farmer'}, 400
 
     @jwt_required
     def get(self):
@@ -52,7 +56,7 @@ class FarmerRatingRegister(Resource):
             _data['rating'] = farmer_r.rating
             result.append(_data)
 
-        return jsonify({'roles': result})
+        return {'roles': result, 'message': 'successful transaction'}, 200
 
 
 # filter farmer rating by given farmerid, itemid, ratedby
@@ -77,9 +81,9 @@ class FarmerRatingFilter(Resource):
             _data['ratedby'] = farmer_rating.ratedby
             _data['rating'] = farmer_rating.rating
 
-            return jsonify({'farmer_ratings': _data})
+            return {'farmer_ratings': _data, 'message': 'successful transaction'}, 200
 
-        return jsonify({'message': 'Farmer Item Rating not Found'})
+        return {'message': 'Farmer Item Rating not Found'}, 400
 
     @jwt_required
     def put(self, farmerid, itemid, ratedby):
@@ -88,8 +92,8 @@ class FarmerRatingFilter(Resource):
         if farmer_r:
             farmer_r.rating = data['rating']
             farmer_r.save_to_db()
-            return jsonify({'message': 'Farmer rating updated successfully'})
-        return jsonify({'message': 'Farmer rating not Found'})
+            return {'message': 'Farmer rating updated successfully'}, 200
+        return {'message': 'Farmer rating not Found'}, 400
 
 
 # filter farmer rating by id
@@ -114,9 +118,9 @@ class FarmerRatingIDFilter(Resource):
             _data['ratedby'] = farmer_rating.ratedby
             _data['rating'] = farmer_rating.rating
 
-            return jsonify({'farmer_ratings': _data})
+            return {'farmer_ratings': _data, 'message': 'successful transaction'}, 200
 
-        return jsonify({'message': 'Farmer Item Rating not Found'})
+        return {'message': 'Farmer Item Rating not Found'}, 400
 
     @jwt_required
     def put(self, id):
@@ -128,5 +132,5 @@ class FarmerRatingIDFilter(Resource):
             farmer_r.ratedby = data['ratedby']
             farmer_r.rating = data['rating']
             farmer_r.save_to_db()
-            return jsonify({'message': 'Farmer rating updated successfully'})
-        return jsonify({'message': 'Farmer rating not Found'})
+            return {'message': 'Farmer rating updated successfully'}, 200
+        return {'message': 'Farmer rating not Found'}, 400
