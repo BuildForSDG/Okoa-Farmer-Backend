@@ -7,7 +7,9 @@ and makes sure that it is a new, blank database each time.
 """
 
 from unittest import TestCase
-from src.app import app
+
+import config
+from app import app
 from src.models.Model import db
 
 
@@ -15,8 +17,7 @@ class TestBase(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/okoa_farmer_db?charset=utf8mb4'
-        # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Masaki2017$$@localhost/okoafarmer'
+        app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
         app.config['DEBUG'] = False
         app.config['PROPAGATE_EXCEPTIONS'] = True
         with app.app_context():

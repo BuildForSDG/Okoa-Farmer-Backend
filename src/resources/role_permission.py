@@ -1,5 +1,5 @@
 from flask import jsonify
-from flask_jwt import jwt_required
+from flask_jwt_extended import *
 from flask_restful import Resource, reqparse
 
 from src.models.role_permission import RolePermissionModel
@@ -20,48 +20,60 @@ class RolePermissionRegister(Resource):
                         required=True,
                         help="This field cannot be blank.")
 
-
-    # @jwt_required()
+    @jwt_required
     def post(self):
         data = RolePermissionRegister.parser.parse_args()
-
-        if RolePermissionModel.find_by_id(data['id']):
-            return {'message': 'A role permission with that id already exists'}, 400
+        if RolePermissionModel.find_by_id(data['roleid'], data['permissionid']):
+            return {'message': 'A role with that permission already exists'}, 400
         user = RolePermissionModel(**data)
         user.save_to_db()
-        return {'message': 'Role Permission created successfully.'}, 201
+        return {'message': 'Role Permission created successfully.'}, 200
 
-    @jwt_required()
-    def put(self, id):
-        data = RolePermissionRegister.parser.parse_args()
-        role = RolePermissionModel.find_by_name(id)
-        if role is None:
-            role = RolePermissionModel(id, **data)
-        else:
-            role.roleid = data['roleid']
-            role.permissionid = data['permissionid']
-        role.save_to_db()
-        return role.json()
-
-    # @jwt_required()
+    @jwt_required
     def get(self):
         permissions = RolePermissionModel.query.all()
         result = []
 
         for permission in permissions:
             role_permission_data = {}
-            role_permission_data['roleid'] = permission.roleid
             role_permission_data['permissionid'] = permission.permissionid
-
+            role_permission_data['roleid'] = permission.roleid
 
             result.append(role_permission_data)
 
-        return jsonify({'permissions': result})
+        return {'role_permissions': result}, 200
 
 
-    def delete(self, id):
-        role_permission = RolePermissionModel.find_by_id(id)
+# filter Role Permission by given id
+class RolePermissionFilter(Resource):
+
+    @jwt_required
+    def delete(self, roleid, permissionid):
+        role_permission = RolePermissionModel.find_by_id(roleid, permissionid)
         if role_permission:
             role_permission.delete_from_db()
+            return jsonify({'message': 'Role Permission Deleted'})
+        return jsonify({'message': 'Role Permission Not Found'})
 
-        return jsonify({'message': 'Role Permission Deleted'})
+    @jwt_required
+    def get(self, roleid, permissionid):
+        role_permission = RolePermissionModel.find_by_id(roleid, permissionid)
+        if role_permission:
+            _data = {}
+            _data['id'] = role_permission.id
+            _data['roleid'] = role_permission.roleid
+            _data['permissionid'] = role_permission.permissionid
+            return {'users': _data}, 200
+
+        return {'message': 'Role Permission not Found'}, 400
+
+    @jwt_required
+    def put(self, roleid, permissionid):
+        data = RolePermissionRegister.parser.parse_args()
+        role_permission = RolePermissionModel.find_by_id(roleid, permissionid)
+        if role_permission:
+            role_permission.roleid = data['roleid']
+            role_permission.permissionid = data['permissionid']
+            role_permission.save_to_db()
+            return {'message': 'Role Permission updated successfully'}, 200
+        return {'message': 'Role Permission not Found'}, 400
