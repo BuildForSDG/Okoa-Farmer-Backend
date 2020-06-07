@@ -10,5 +10,5 @@ SECRET_KEY = '#^#%^%&#BgdvttkkgyDDT&*%$'
 # server
 # SQLALCHEMY_DATABASE_URI = "mysql+pymysql://b2b1802e9376f5:91ac6855@us-cdbr-east-06.cleardb.net/heroku_e9e0456b7084334?charset=utf8mb4"
 
-# travis
+#travis
 SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:''@localhost/okoa_farmer_db"

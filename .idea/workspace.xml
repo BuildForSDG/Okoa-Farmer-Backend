@@ -20,7 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13721af8-3390-43e1-879b-1efc75425263" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,9 +200,9 @@
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="172" y="31" width="1022" height="737" key="SettingsEditor/0.27.1366.741@0.27.1366.741" timestamp="1591053908828" />
-    <state x="408" y="311" width="540" height="179" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1591064319483">
+    <state x="408" y="311" width="540" height="179" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1591520856560">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="408" y="311" width="540" height="179" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.27.1366.741@0.27.1366.741" timestamp="1591064319483" />
+    <state x="408" y="311" width="540" height="179" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.27.1366.741@0.27.1366.741" timestamp="1591520856560" />
   </component>
 </project>
