@@ -12,8 +12,8 @@ install:
 before_script:
    ############### working connection to MySQL Database #################################
     - mysql -e 'CREATE DATABASE okoa_farmer_db;'
-    - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('Masaki2017$$') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-    - sudo mysql -e "mysql -uroot -pMasaki2017$$; 'SHOW DATABASES'"
+    - echo "USE mysql;\nUPDATE user SET password=PASSWORD('Masaki2017$$') WHERE user='root';\nFLUSH PRIVILEGES;\n"
+    - mysql -u root -p'Masaki2017$$' -e 'show databases'
     - sudo mysql -e 'SHOW DATABASES;'
     - sudo mysql -e 'USE okoa_farmer_db;show tables;'
     - sudo mysql --version
