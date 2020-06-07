@@ -19,41 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13721af8-3390-43e1-879b-1efc75425263" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/system/test_farmer_rating_system.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/system/test_item_category_system.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/system/test_item_system.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/system/test_role_permission_system.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/farmer_rating.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/farmer_rating.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/item.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/item.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/permission.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/permission.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/role.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/role.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/role_permission.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/role_permission.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/farmer_rating.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/farmer_rating.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/item.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/item.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/item_category.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/item_category.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/permission.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/permission.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/role.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/role.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/role_permission.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/role_permission.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/user_role.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/user_role.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/integration/test_farmer_rating_integration.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/integration/test_farmer_rating_integration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/integration/test_item_integration.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/integration/test_item_integration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/integration/test_permission_integration.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/integration/test_permission_integration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/integration/test_role_integration.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/integration/test_role_integration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/integration/test_role_permission_integration.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/integration/test_role_permission_integration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/integration/test_user_role_integration.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/integration/test_user_role_integration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/system/test_permission_system.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/system/test_permission_system.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/system/test_role_system.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/system/test_role_system.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/system/test_user_role_system.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/system/test_user_role_system.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/system/test_user_system.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/system/test_user_system.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/unit/test_base_unit.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unit/test_base_unit.py" afterDir="false" />
-    </list>
+    <list default="true" id="13721af8-3390-43e1-879b-1efc75425263" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
