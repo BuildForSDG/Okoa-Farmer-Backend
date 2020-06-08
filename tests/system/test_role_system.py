@@ -26,22 +26,22 @@ class TestRoleSystem(TestBase):
     def test_get_role(self):
         with app.test_client() as client:
             with self.app_context():
-                resp = client.get('/roles', data=roles_dict, headers={'Authorization': self.access_token})
+                resp = client.get('/api/roles', data=roles_dict, headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 200)
 
     #get one role
     def test_get_one_role(self):
         with app.test_client() as client:
             with self.app_context():
-                client.post('/roles', data=roles_dict,headers={'Authorization': self.access_token})
-                resp = client.get('/roles/name',headers={'Authorization': self.access_token})
+                client.post('/api/roles', data=roles_dict,headers={'Authorization': self.access_token})
+                resp = client.get('/api/roles/name',headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 200)
 
     def test_register_duplicate_permission(self):
         with app.test_client() as client:
             with self.app_context():
-                client.post('/roles', data=roles_dict,headers={'Authorization': self.access_token})
-                response = client.post('/roles', data=roles_dict,headers={'Authorization': self.access_token})
+                client.post('/api/roles', data=roles_dict,headers={'Authorization': self.access_token})
+                response = client.post('/api/roles', data=roles_dict,headers={'Authorization': self.access_token})
 
                 self.assertEqual(response.status_code, 400)
                 self.assertDictEqual({'message': 'A role with that name already exists'}, json.loads(response.data))
@@ -51,8 +51,8 @@ class TestRoleSystem(TestBase):
     def test_delete_role(self):
         with app.test_client() as client:
             with self.app_context():
-                client.post('/roles', data=roles_dict,headers={'Authorization': self.access_token})
-                resp = client.delete('/roles/name',headers={'Authorization': self.access_token})
+                client.post('/api/roles', data=roles_dict,headers={'Authorization': self.access_token})
+                resp = client.delete('/api/roles/name',headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 200)
                 self.assertDictEqual({'message': 'Role Deleted'},
                                      json.loads(resp.data))

@@ -32,14 +32,14 @@ class TestUserSystem(TestBase):
     def test_get_user(self):
         with app.test_client() as client:
             with self.app_context():
-                resp = client.get('/register', data=user_dict, headers={'Authorization': self.access_token})
+                resp = client.get('/api/register', data=user_dict, headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 200)
 
     # try to register a user twice
     def test_register_duplicate_user(self):
         with app.test_client() as client:
             with self.app_context():
-                client.post('/register', data=user_dict)
+                client.post('/api/register', data=user_dict)
                 response = client.post('/register', data=user_dict)
                 self.assertEqual(response.status_code, 400)
                 self.assertDictEqual({'message': 'A user with that username already exists'}, json.loads(response.data))
@@ -48,8 +48,8 @@ class TestUserSystem(TestBase):
     def test_delete_user(self):
         with app.test_client() as client:
             with self.app_context():
-                client.post('/register', data=user_dict)
-                resp = client.delete('/register/1', headers={'Authorization': self.access_token})
+                client.post('/api/register', data=user_dict)
+                resp = client.delete('/api/register/1', headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 200)
                 self.assertDictEqual({'message': 'User Deleted'},
                                      json.loads(resp.data))

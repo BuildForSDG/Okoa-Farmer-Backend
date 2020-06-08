@@ -32,7 +32,7 @@ class TestUserSystem(TestBase):
     def test_get_role_permission_not_found(self):
         with app.test_client() as client:
             with self.app_context():
-                resp = client.get('/role/permissions/1/1', headers={'Authorization': self.access_token})
+                resp = client.get('/api/role/permissions/1/1', headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 400)
 
     # test registering an already existing permission
@@ -41,9 +41,9 @@ class TestUserSystem(TestBase):
             with self.app_context():
                 RoleModel('admin').save_to_db()
                 PermissionModel('add').save_to_db()
-                client.post('/role/permissions', data=role_permission_dict,
+                client.post('/api/role/permissions', data=role_permission_dict,
                             headers={'Authorization': self.access_token})
-                response = client.post('/role/permissions', data=role_permission_dict,
+                response = client.post('/api/role/permissions', data=role_permission_dict,
                                        headers={'Authorization': self.access_token})
 
                 self.assertEqual(response.status_code, 400)
@@ -54,15 +54,15 @@ class TestUserSystem(TestBase):
     def test_get_single_user(self):
         with app.test_client() as client:
             with self.app_context():
-                resp = client.get('/role/permissions/1/1', headers={'Authorization': self.access_token})
+                resp = client.get('/api/role/permissions/1/1', headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 400)
 
     # test delete role permission given roleid and permissionid
     def test_delete_role_permission(self):
         with app.test_client() as client:
             with self.app_context():
-                client.post('/role/permissions/1/1', data=user_dict, headers={'Authorization': self.access_token})
-                resp = client.delete('/role/permissions/1/1', headers={'Authorization': self.access_token})
+                client.post('/api/role/permissions/1/1', data=user_dict, headers={'Authorization': self.access_token})
+                resp = client.delete('/api/role/permissions/1/1', headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 200)
                 self.assertDictEqual({'message': 'Role Permission Not Found'},
                                      json.loads(resp.data))

@@ -32,7 +32,7 @@ class TestUserSystem(TestBase):
     def test_get_farmer_rating(self):
         with app.test_client() as client:
             with self.app_context():
-                resp = client.get('/farmer/rating', headers={'Authorization': self.access_token})
+                resp = client.get('/api/farmer/rating', headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 200)
 
     # try to register a farmer_rating twice
@@ -44,8 +44,8 @@ class TestUserSystem(TestBase):
                 ItemModel('itemname', '1', '1', 'location', '100', '1',
                                                 'description', 'photo_path').save_to_db()
 
-                client.post('/farmer/rating', data=farmer_rating_dict, headers={'Authorization': self.access_token})
-                response = client.post('/farmer/rating', data=farmer_rating_dict,
+                client.post('/api/farmer/rating', data=farmer_rating_dict, headers={'Authorization': self.access_token})
+                response = client.post('/api/farmer/rating', data=farmer_rating_dict,
                                        headers={'Authorization': self.access_token})
                 self.assertEqual(response.status_code, 200)
                 self.assertDictEqual({'message': 'Farmer Item Rating by that user already exists'},
@@ -59,8 +59,8 @@ class TestUserSystem(TestBase):
                 UserModel('username','firstname', 'lastname', 'residence', 'address', 'phonenumber', 'emailaddress','password').save_to_db()
                 ItemModel('itemname', '1', '1', 'location', '100', '1',
                                                 'description', 'photo_path').save_to_db()
-                client.post('/farmer/rating', data=farmer_rating_dict, headers={'Authorization': self.access_token})
-                resp = client.delete('/farmer/rating/1', headers={'Authorization': self.access_token})
+                client.post('/api/farmer/rating', data=farmer_rating_dict, headers={'Authorization': self.access_token})
+                resp = client.delete('/api/farmer/rating/1', headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 200)
                 self.assertDictEqual({'message': 'Farmer Item Rating Deleted'},
                                      json.loads(resp.data))

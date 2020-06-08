@@ -34,7 +34,7 @@ class TestUserSystem(TestBase):
     def test_get_item(self):
         with app.test_client() as client:
             with self.app_context():
-                resp = client.get('/item', data=item_dict, headers={'Authorization': self.access_token})
+                resp = client.get('/api/item', data=item_dict, headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 200)
 
     # try to register an item twice
@@ -42,8 +42,8 @@ class TestUserSystem(TestBase):
         with app.test_client() as client:
             with self.app_context():
                 ItemCategoryModel('categoryname').save_to_db()
-                client.post('/item', data=item_dict, headers={'Authorization': self.access_token})
-                response = client.post('/item', data=item_dict, headers={'Authorization': self.access_token})
+                client.post('/api/item', data=item_dict, headers={'Authorization': self.access_token})
+                response = client.post('/api/item', data=item_dict, headers={'Authorization': self.access_token})
                 self.assertEqual(response.status_code, 400)
                 self.assertDictEqual({'message': 'An Item with that name already exists'}, json.loads(response.data))
 
@@ -51,8 +51,8 @@ class TestUserSystem(TestBase):
     def test_delete_item(self):
         with app.test_client() as client:
             with self.app_context():
-                client.post('/item', data=item_dict)
-                resp = client.delete('/item/1', headers={'Authorization': self.access_token})
+                client.post('/api/item', data=item_dict)
+                resp = client.delete('/api/item/1', headers={'Authorization': self.access_token})
                 self.assertEqual(resp.status_code, 200)
                 # self.assertDictEqual({'message': 'Item Deleted'},
                 #                      json.loads(resp.data))

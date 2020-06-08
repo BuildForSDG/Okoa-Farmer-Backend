@@ -42,6 +42,7 @@ app.config.from_object('config')
 app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['PROPAGATE_EXCEPTIONS'] = True
+app.config['DEBUG'] = True
 app.config['JWT_SECRET_KEY'] = config.SECRET_KEY  # to encode cookies
 db.init_app(app)
 api = Api(app)
