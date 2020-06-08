@@ -10,13 +10,14 @@ install:
   - pip install -r requirements.txt
 
 before_script:
+  - mysql -e 'create database okoa_farmer_db DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;'
+  - mysql -u root -e "create user root@localhost identified by 'Masaki2017$$'; grant all on okoa_farmer_db.* to root@localhost;"
+  - mysql -u root -p'Masaki2017$$' -e 'show databases'
    ############### working connection to MySQL Database #################################
-    - mysql -e 'CREATE DATABASE okoa_farmer_db;'
-    - echo "USE mysql;\nUPDATE user SET password=PASSWORD('Masaki2017$$') WHERE user='root';\nFLUSH PRIVILEGES;\n"
-    - mysql -u root -p'Masaki2017$$' -e 'show databases'
-    - sudo mysql -e 'SHOW DATABASES;'
-    - sudo mysql -e 'USE okoa_farmer_db;show tables;'
-    - sudo mysql --version
+#    - mysql -e 'CREATE DATABASE okoa_farmer_db;'
+#    - sudo mysql -e 'SHOW DATABASES;'
+#    - sudo mysql -e 'USE okoa_farmer_db;'
+#    - sudo mysql --version
 
 script:
   - python -m pytest tests/
