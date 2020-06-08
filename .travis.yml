@@ -10,19 +10,16 @@ install:
   - pip install -r requirements.txt
 
 before_script:
-  - mysql -e 'create database okoa_farmer_db DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;'
-  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('Masaki2017$$') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-  - sudo service mysql restart
-  - sudo mysql -uroot -pMasaki2017$$  -e 'USE okoa_farmer_db;'
-  - sudo mysql -uroot -pMasaki2017$$  -e 'SHOW DATABASES;'
+#  - mysql -e 'create database okoa_farmer_db DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;'
+#  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('Masaki2017$$') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+#  - sudo service mysql restart
 #  - sudo mysql -uroot -pMasaki2017$$  -e 'USE okoa_farmer_db;'
-#  - mysql -u root -p'Masaki2017$$' -e 'show databases'
-#  - mysql -e 'select VERSION()'
+#  - sudo mysql -uroot -pMasaki2017$$  -e 'SHOW DATABASES;'
    ############### working connection to MySQL Database #################################
-#    - mysql -e 'CREATE DATABASE okoa_farmer_db;'
-#    - sudo mysql -e 'SHOW DATABASES;'
-#    - sudo mysql -e 'USE okoa_farmer_db;'
-#    - sudo mysql --version
+    - mysql -e 'CREATE DATABASE okoa_farmer_db;'
+    - sudo mysql -e 'SHOW DATABASES;'
+    - sudo mysql -e 'USE okoa_farmer_db;'
+    - sudo mysql --version
 
 script:
   - python -m pytest tests/
