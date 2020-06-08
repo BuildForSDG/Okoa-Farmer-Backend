@@ -21,7 +21,7 @@ import flask
 import requests_oauthlib
 from flask import Flask, request
 from flask import jsonify
-from flask_jwt import JWTError
+# from flask_jwt import JWTError
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token
 )
@@ -42,7 +42,7 @@ app.config.from_object('config')
 app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['PROPAGATE_EXCEPTIONS'] = True
-app.config['DEBUG'] = True
+# app.config['DEBUG'] = True   -when it is true system tests do not pass
 app.config['JWT_SECRET_KEY'] = config.SECRET_KEY  # to encode cookies
 db.init_app(app)
 api = Api(app)
@@ -55,9 +55,9 @@ app.logger.setLevel(logging.ERROR)
 jwt = JWTManager(app)
 
 
-@app.errorhandler(JWTError)
-def auth_error_handler(err):
-    return jsonify({'message': 'Could not authorize. Did you include a valid Authorization header?'}, 401)
+# ot working
+# def auth_error_handler(err):
+#     return jsonify({'message': 'Could not authorize. Did you include a valid Authorization header?'}, 401)
 
 
 ############################### Resource Routes for Okoa Farmer ################################

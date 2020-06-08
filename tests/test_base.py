@@ -19,7 +19,7 @@ class TestBase(TestCase):
     def setUpClass(cls):
         # app.config['SQLALCHEMY_DATABASE_URI'] =  config.SQLALCHEMY_DATABASE_URI
         app.config['SQLALCHEMY_DATABASE_URI'] =  'mysql+pymysql://root:''@localhost/okoa_farmer_db'
-        app.config['DEBUG'] = True
+        # app.config['DEBUG'] = True
         app.config['PROPAGATE_EXCEPTIONS'] = True
 
         with app.app_context():

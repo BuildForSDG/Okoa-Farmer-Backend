@@ -40,7 +40,7 @@ class TestUserSystem(TestBase):
         with app.test_client() as client:
             with self.app_context():
                 client.post('/api/register', data=user_dict)
-                response = client.post('/register', data=user_dict)
+                response = client.post('/api/register', data=user_dict)
                 self.assertEqual(response.status_code, 400)
                 self.assertDictEqual({'message': 'A user with that username already exists'}, json.loads(response.data))
 
