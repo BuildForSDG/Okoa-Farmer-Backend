@@ -1,7 +1,5 @@
 import json
-
 from flask_jwt_extended import create_access_token
-
 from app import app
 from src.models.user import UserModel
 from tests.test_base import TestBase

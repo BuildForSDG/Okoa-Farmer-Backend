@@ -1,7 +1,6 @@
 import json
 
 from flask_jwt_extended import create_access_token
-
 from app import app
 from src.models.item import ItemModel
 from src.models.item_category import ItemCategoryModel
