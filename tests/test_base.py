@@ -17,9 +17,10 @@ class TestBase(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/okoa_farmer_db'
+        app.config['SQLALCHEMY_DATABASE_URI'] =  config.SQLALCHEMY_DATABASE_URI
         app.config['DEBUG'] = True
         app.config['PROPAGATE_EXCEPTIONS'] = True
+
         with app.app_context():
             db.init_app(app)
 
@@ -27,9 +28,9 @@ class TestBase(TestCase):
         # Make sure database exists
         with app.app_context():
             db.create_all()
-            # Get a test client
-            self.app = app.test_client()
-            self.app_context = app.app_context
+        # Get a test client
+        self.app = app.test_client()
+        self.app_context = app.app_context
 
     def tearDown(self):
         # Database is blank

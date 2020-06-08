@@ -20,6 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13721af8-3390-43e1-879b-1efc75425263" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_base.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +59,21 @@
       <recent name="$PROJECT_DIR$/src/models" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests in integration">
+  <component name="RunManager" selected="Python tests.Unittests in system">
+    <configuration name="Unittests for test_base.TestBase" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Okoa-Farmer-Backend" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_base.TestBase&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="Unittests for test_farmer_rating_system.TestUserSystem.test_delete_farmer_rating" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="Okoa-Farmer-Backend" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -69,20 +85,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;test_farmer_rating_system.TestUserSystem.test_delete_farmer_rating&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unittests for test_farmer_rating_system.TestUserSystem.test_get_farmer_rating" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="Okoa-Farmer-Backend" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/system" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_farmer_rating_system.TestUserSystem.test_get_farmer_rating&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -130,11 +132,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Unittests in integration" />
         <item itemvalue="Python tests.Unittests in system" />
+        <item itemvalue="Python tests.Unittests in integration" />
+        <item itemvalue="Python tests.Unittests for test_base.TestBase" />
         <item itemvalue="Python tests.Unittests in test_farmer_rating_system.py" />
         <item itemvalue="Python tests.Unittests for test_farmer_rating_system.TestUserSystem.test_delete_farmer_rating" />
-        <item itemvalue="Python tests.Unittests for test_farmer_rating_system.TestUserSystem.test_get_farmer_rating" />
       </list>
     </recent_temporary>
   </component>
@@ -162,22 +164,22 @@
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="461" y="158" width="424" height="491" key="FileChooserDialogImpl/0.27.1366.741@0.27.1366.741" timestamp="1591096506388" />
-    <state width="1343" height="343" key="GridCell.Tab.0.bottom" timestamp="1591535243418">
+    <state width="1343" height="343" key="GridCell.Tab.0.bottom" timestamp="1591585272571">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1343" height="343" key="GridCell.Tab.0.bottom/0.27.1366.741@0.27.1366.741" timestamp="1591535243418" />
-    <state width="1343" height="343" key="GridCell.Tab.0.center" timestamp="1591535243418">
+    <state width="1343" height="343" key="GridCell.Tab.0.bottom/0.27.1366.741@0.27.1366.741" timestamp="1591585272571" />
+    <state width="1343" height="343" key="GridCell.Tab.0.center" timestamp="1591585272570">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1343" height="343" key="GridCell.Tab.0.center/0.27.1366.741@0.27.1366.741" timestamp="1591535243418" />
-    <state width="1343" height="343" key="GridCell.Tab.0.left" timestamp="1591535243417">
+    <state width="1343" height="343" key="GridCell.Tab.0.center/0.27.1366.741@0.27.1366.741" timestamp="1591585272570" />
+    <state width="1343" height="343" key="GridCell.Tab.0.left" timestamp="1591585272569">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1343" height="343" key="GridCell.Tab.0.left/0.27.1366.741@0.27.1366.741" timestamp="1591535243417" />
-    <state width="1343" height="343" key="GridCell.Tab.0.right" timestamp="1591535243418">
+    <state width="1343" height="343" key="GridCell.Tab.0.left/0.27.1366.741@0.27.1366.741" timestamp="1591585272569" />
+    <state width="1343" height="343" key="GridCell.Tab.0.right" timestamp="1591585272570">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1343" height="343" key="GridCell.Tab.0.right/0.27.1366.741@0.27.1366.741" timestamp="1591535243418" />
+    <state width="1343" height="343" key="GridCell.Tab.0.right/0.27.1366.741@0.27.1366.741" timestamp="1591585272570" />
     <state width="1343" height="215" key="GridCell.Tab.1.bottom" timestamp="1590888978459">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
