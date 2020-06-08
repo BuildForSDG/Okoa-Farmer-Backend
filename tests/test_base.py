@@ -30,8 +30,8 @@ class TestBase(TestCase):
         with app.app_context():
             db.create_all()
         # Get a test client
-        self.app = app.test_client()
-        self.app_context = app.app_context
+            self.app = app.test_client()
+            self.app_context = app.app_context
 
     def tearDown(self):
         # Database is blank

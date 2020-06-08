@@ -21,6 +21,4 @@ Werkzeug==1.0.0
 pymysql==0.9.3
 Flask-JWT-Extended==3.24.1
 bcrypt==3.1.7
-pycparser==2.19
-flask_jwt
 pytest
