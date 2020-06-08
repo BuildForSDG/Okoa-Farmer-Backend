@@ -14,7 +14,7 @@ before_script:
   - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('Masaki2017$$') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
   - sudo service mysql restart
   - sudo mysql -uroot -pMasaki2017$$  -e 'USE okoa_farmer_db;'
-  - sudo mysql -e 'SHOW DATABASES;'
+  - sudo mysql -uroot -pMasaki2017$$  -e 'SHOW DATABASES;'
 #  - sudo mysql -uroot -pMasaki2017$$  -e 'USE okoa_farmer_db;'
 #  - mysql -u root -p'Masaki2017$$' -e 'show databases'
 #  - mysql -e 'select VERSION()'
